@@ -4,6 +4,20 @@
   box-sizing: border-box;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+
 :root {
   --primary-color: #6366f1;
   --primary-dark: #4f46e5;
@@ -34,7 +48,7 @@ body {
     'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 1.6;
   color: var(--text-primary);
-  background-color: var(--bg-secondary);
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

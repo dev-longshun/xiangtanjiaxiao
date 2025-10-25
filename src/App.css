@@ -2,9 +2,16 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
 }
 
 .main-content {
   flex: 1;
   padding-top: 80px;
+  margin: 0;
+  border: none;
+  outline: none;
 }

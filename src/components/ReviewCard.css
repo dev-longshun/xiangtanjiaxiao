@@ -1,16 +1,17 @@
 .review-card {
-  background-color: var(--bg-primary);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
 
 .review-card:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
-  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .review-header {
@@ -28,16 +29,17 @@
 }
 
 .author-icon {
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: white;
   padding: 0.5rem;
   border-radius: 50%;
   font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .author-name {
   font-weight: 600;
-  color: var(--text-primary);
+  color: white;
   font-size: 1rem;
 }
 
@@ -52,7 +54,7 @@
 }
 
 .star-empty {
-  color: var(--border-color);
+  color: rgba(255, 255, 255, 0.2);
   font-size: 1rem;
 }
 
@@ -61,7 +63,7 @@
 }
 
 .review-content p {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   line-height: 1.8;
   font-size: 0.95rem;
 }
@@ -71,19 +73,19 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .review-date {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.85rem;
 }
 
 .date-icon {
-  color: var(--primary-color);
+  color: #a78bfa;
 }
 
 .review-tags {
@@ -93,16 +95,18 @@
 }
 
 .review-tag {
-  background-color: var(--secondary-color);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
   font-weight: 500;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 .review-tag.warning {
-  background-color: var(--danger-color);
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 @media (max-width: 768px) {

@@ -1,6 +1,27 @@
 .submit-page {
   padding: 2rem 0 4rem;
   min-height: 100vh;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.submit-page .container {
+  position: relative;
+  z-index: 1;
 }
 
 .submit-header {
@@ -10,13 +31,17 @@
 
 .submit-header h1 {
   font-size: 2.5rem;
-  color: var(--text-primary);
+  color: white;
   margin-bottom: 1rem;
+  background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .subtitle {
   font-size: 1.1rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .contact-section,
@@ -31,7 +56,7 @@
 .template-section h2,
 .guidelines-section h2 {
   font-size: 1.75rem;
-  color: var(--text-primary);
+  color: white;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -43,11 +68,11 @@
 }
 
 .section-icon.success {
-  color: var(--secondary-color);
+  color: #10b981;
 }
 
 .section-icon.warning {
-  color: var(--warning-color);
+  color: #f59e0b;
 }
 
 .contact-cards {
@@ -57,40 +82,43 @@
 }
 
 .contact-card {
-  background-color: var(--bg-primary);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
   padding: 2rem;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .contact-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .contact-icon-large {
   font-size: 3rem;
-  color: var(--primary-color);
+  color: #a78bfa;
   margin-bottom: 1rem;
 }
 
 .contact-card h3 {
   font-size: 1.25rem;
   margin-bottom: 0.75rem;
-  color: var(--text-primary);
+  color: white;
 }
 
 .contact-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: #a78bfa;
   margin-bottom: 0.75rem;
 }
 
 .contact-desc {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.95rem;
 }
 
@@ -108,7 +136,7 @@
 .step-number {
   width: 3rem;
   height: 3rem;
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -117,25 +145,28 @@
   font-size: 1.5rem;
   font-weight: 700;
   flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
 }
 
 .step-content h3 {
   font-size: 1.1rem;
-  color: var(--text-primary);
+  color: white;
   margin-bottom: 0.5rem;
 }
 
 .step-content p {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.95rem;
   line-height: 1.6;
 }
 
 .template-box {
-  background-color: var(--bg-primary);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
   padding: 2rem;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   overflow-x: auto;
 }
 
@@ -143,21 +174,23 @@
   font-family: 'Courier New', Courier, monospace;
   font-size: 0.95rem;
   line-height: 1.8;
-  color: var(--text-primary);
+  color: rgba(255, 255, 255, 0.9);
   white-space: pre-wrap;
   margin: 0;
 }
 
 .content-box {
-  background-color: var(--bg-primary);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
   padding: 2rem;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .content-box h3 {
   font-size: 1.2rem;
-  color: var(--text-primary);
+  color: white;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
 }
@@ -167,7 +200,7 @@
 }
 
 .content-box p {
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   line-height: 1.8;
   margin-bottom: 1rem;
 }
@@ -180,35 +213,38 @@
 .guidelines-list.positive li {
   padding: 0.75rem 1rem;
   margin-bottom: 0.75rem;
-  background-color: #ecfdf5;
-  border-left: 4px solid var(--secondary-color);
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 4px solid #10b981;
   border-radius: var(--radius-md);
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .guidelines-list.warning li {
   padding: 0.75rem 1rem;
   margin-bottom: 0.75rem;
-  background-color: #fef3c7;
-  border-left: 4px solid var(--warning-color);
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 4px solid #f59e0b;
   border-radius: var(--radius-md);
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .guidelines-section.warning {
-  border: 2px solid var(--warning-color);
+  border: 2px solid #f59e0b;
   padding: 2rem;
   border-radius: var(--radius-lg);
-  background-color: #fffbeb;
+  background: rgba(245, 158, 11, 0.1);
+  backdrop-filter: blur(20px);
 }
 
 .submit-cta {
   margin-top: 4rem;
   text-align: center;
   padding: 3rem 2rem;
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   border-radius: var(--radius-lg);
   color: white;
+  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .cta-text {
@@ -241,13 +277,16 @@
 }
 
 .cta-button.primary {
-  background-color: var(--secondary-color);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
 }
 
 .cta-button.secondary {
-  background-color: white;
-  color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
 }
 
 @media (max-width: 768px) {
