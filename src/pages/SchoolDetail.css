@@ -1,0 +1,248 @@
+.school-detail {
+  padding: 2rem 0 4rem;
+  min-height: 100vh;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: var(--bg-secondary);
+}
+
+.not-found {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.not-found h2 {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.school-header {
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 3rem;
+}
+
+.school-main-info {
+  margin-bottom: 2rem;
+}
+
+.school-main-info h1 {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.school-rating-large {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.star-icon-large {
+  font-size: 2rem;
+  color: var(--warning-color);
+}
+
+.rating-score-large {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.rating-count {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.school-contact {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.contact-item:last-child {
+  margin-bottom: 0;
+}
+
+.contact-icon {
+  font-size: 1.25rem;
+  color: var(--primary-color);
+}
+
+.school-description-box {
+  margin-bottom: 2rem;
+}
+
+.school-description-box h3 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.school-description-box p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.school-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.meta-item {
+  padding: 1.5rem;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.meta-item strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.courses-list,
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.course-badge {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.feature-tag {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.reviews-section {
+  margin-top: 3rem;
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.reviews-header h2 {
+  font-size: 2rem;
+  color: var(--text-primary);
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.no-reviews {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.no-reviews p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.submit-link {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.submit-link:hover {
+  background-color: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+  .school-header {
+    padding: 1.5rem;
+  }
+
+  .school-main-info h1 {
+    font-size: 1.75rem;
+  }
+
+  .rating-score-large {
+    font-size: 2rem;
+  }
+
+  .star-icon-large {
+    font-size: 1.5rem;
+  }
+
+  .school-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .reviews-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .reviews-header h2 {
+    font-size: 1.5rem;
+  }
+}
+

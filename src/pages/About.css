@@ -1,0 +1,178 @@
+.about-page {
+  padding: 2rem 0 4rem;
+  min-height: 100vh;
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-header h1 {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.about-header .subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.about-section {
+  margin-bottom: 3rem;
+}
+
+.section-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.about-section .section-icon {
+  font-size: 3rem;
+  color: var(--primary-color);
+}
+
+.about-section h2 {
+  font-size: 1.75rem;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.content-box {
+  background-color: var(--bg-primary);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.content-box p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.content-box p:last-child {
+  margin-bottom: 0;
+}
+
+.content-box h3 {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.content-box h3:first-child {
+  margin-top: 0;
+}
+
+.service-list {
+  list-style: none;
+  padding: 0;
+}
+
+.service-list li {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--primary-color);
+}
+
+.service-list li:last-child {
+  margin-bottom: 0;
+}
+
+.service-list strong {
+  display: block;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.service-list p {
+  margin: 0;
+}
+
+.content-box.disclaimer {
+  background-color: #fef3c7;
+  border: 2px solid var(--warning-color);
+}
+
+.content-box.disclaimer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.content-box.disclaimer li {
+  padding: 0.75rem 0;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.content-box.disclaimer li:before {
+  content: "⚠️";
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+}
+
+.content-box.contact {
+  text-align: center;
+}
+
+.contact-info {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-info p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.contact-info strong {
+  color: var(--primary-color);
+}
+
+.about-footer {
+  margin-top: 4rem;
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  border-radius: var(--radius-lg);
+  color: white;
+}
+
+.thanks {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .about-header h1 {
+    font-size: 2rem;
+  }
+
+  .about-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .content-box {
+    padding: 1.5rem;
+  }
+
+  .service-list li {
+    padding: 1.25rem;
+  }
+}
+
