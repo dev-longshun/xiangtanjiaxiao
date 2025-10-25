@@ -9,6 +9,13 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 1000;
   height: 70px;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+
+.header * {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
 }
 
 .header .container {
@@ -49,6 +56,14 @@
   padding: 0.5rem 1rem;
   border-radius: var(--radius-md);
   position: relative;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  outline: none !important;
+  tap-highlight-color: transparent;
 }
 
 .nav-link:hover {
@@ -56,11 +71,23 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
+.nav-link:focus {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.nav-link:active {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+
 .nav-link.active {
   color: white;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
   border: 1px solid rgba(99, 102, 241, 0.5);
   font-weight: 600;
+  outline: none;
 }
 
 .nav-link.active::before {
