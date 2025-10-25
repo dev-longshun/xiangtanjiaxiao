@@ -47,11 +47,11 @@ function Home() {
             </div>
             <div className="hero-stats">
               <div className="stat-item">
-                <div className="stat-number">{data.schools.length}</div>
-                <div className="stat-label">合作驾校</div>
+                <div className="stat-number">{data.schools.length}+</div>
+                <div className="stat-label">覆盖驾校</div>
               </div>
               <div className="stat-item">
-                <div className="stat-number">{data.reviews.length}</div>
+                <div className="stat-number">{data.reviews.length}+</div>
                 <div className="stat-label">真实评价</div>
               </div>
               <div className="stat-item">
@@ -92,7 +92,7 @@ function Home() {
       <section className="schools-section">
         <div className="container">
           <div className="section-header">
-            <h2>湘潭地区驾校</h2>
+            <h2>热门驾校推荐</h2>
             <div className="sort-controls">
               <label>排序: </label>
               <select 
@@ -107,7 +107,7 @@ function Home() {
           </div>
 
           <div className="schools-grid">
-            {schools.map(school => (
+            {schools.slice(0, 6).map(school => (
               <SchoolCard key={school.id} school={school} />
             ))}
           </div>
@@ -115,6 +115,14 @@ function Home() {
           {schools.length === 0 && (
             <div className="empty-state">
               <p>暂无驾校信息</p>
+            </div>
+          )}
+
+          {schools.length > 6 && (
+            <div className="view-all-container">
+              <Link to="/all-schools" className="view-all-button">
+                查看全部 {schools.length} 所驾校
+              </Link>
             </div>
           )}
         </div>

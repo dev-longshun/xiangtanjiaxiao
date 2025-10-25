@@ -8,8 +8,9 @@
   min-height: 90vh;
   display: flex;
   align-items: center;
-  overflow: hidden;
-  margin-bottom: 5rem;
+  overflow: visible;
+  margin-bottom: 0;
+  padding-bottom: 6rem;
 }
 
 .hero::before {
@@ -24,6 +25,19 @@
     radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
     url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)" /></svg>');
   animation: backgroundPulse 20s ease-in-out infinite;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-image: url('data:image/svg+xml,<svg width="1200" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 Q300,0 600,40 T1200,40 L1200,100 L0,100 Z" fill="%23f8fafc"/></svg>');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
 }
 
 @keyframes backgroundPulse {
@@ -220,9 +234,9 @@
 }
 
 .visual-card:hover {
-  transform: translateY(-10px) scale(1.05);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .visual-card.card-1 {
@@ -333,7 +347,11 @@
 }
 
 .schools-section {
-  padding: 3rem 0;
+  padding: 0 0 4rem 0;
+  background: var(--bg-secondary);
+  position: relative;
+  z-index: 1;
+  margin-top: -1px;
 }
 
 .section-header {
@@ -341,11 +359,13 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  padding-top: 3rem;
 }
 
 .section-header h2 {
   font-size: 2rem;
   color: var(--text-primary);
+  font-weight: 700;
 }
 
 .sort-controls {
@@ -377,8 +397,15 @@
 
 .schools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  max-width: 100%;
+}
+
+@media (min-width: 1400px) {
+  .schools-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .empty-state {
@@ -386,6 +413,51 @@
   padding: 4rem 0;
   color: var(--text-secondary);
   font-size: 1.1rem;
+}
+
+.view-all-container {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.view-all-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 1.25rem 3rem;
+  border-radius: var(--radius-xl);
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.view-all-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.view-all-button:hover::before {
+  left: 100%;
+}
+
+.view-all-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.4);
+}
+
+.view-all-button:active {
+  transform: translateY(-1px);
 }
 
 .info-section {
@@ -412,9 +484,9 @@
 }
 
 .info-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-xl);
-  border-color: var(--primary-light);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
 }
 
 .info-card h3 {
@@ -559,6 +631,17 @@
   .schools-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .view-all-container {
+    margin-top: 2rem;
+  }
+
+  .view-all-button {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    justify-content: center;
   }
 
   .info-section {

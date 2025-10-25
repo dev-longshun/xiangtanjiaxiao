@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
 import { FaHeart, FaShieldAlt, FaUsers, FaEdit } from 'react-icons/fa';
 import './About.css';
 
 function About() {
+  // 页面加载时滚动到顶部
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="about-page">
       <div className="container">

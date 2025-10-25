@@ -11,6 +11,11 @@ function SchoolDetail() {
   const [reviews, setReviews] = useState([]);
   const [sortBy, setSortBy] = useState('date'); // date or rating
 
+  // 页面加载时滚动到顶部
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
   useEffect(() => {
     // 查找驾校信息
     const foundSchool = data.schools.find(s => s.id === id);

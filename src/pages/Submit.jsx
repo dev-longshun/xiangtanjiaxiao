@@ -1,9 +1,15 @@
+import { useEffect } from 'react';
 import { FaQq, FaEnvelope, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 import data from '../data/data.json';
 import './Submit.css';
 
 function Submit() {
   const contact = data.contact;
+
+  // 页面加载时滚动到顶部
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="submit-page">

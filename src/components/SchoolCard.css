@@ -28,9 +28,9 @@
 }
 
 .school-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-xl);
-  border-color: var(--primary-light);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(99, 102, 241, 0.3);
 }
 
 .school-card-header {
@@ -62,8 +62,8 @@
 }
 
 .school-card:hover .rating {
-  transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+  transform: scale(1.02);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
 }
 
 .star-icon {
@@ -125,10 +125,10 @@
 }
 
 .school-card:hover .tag {
-  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
-  color: white;
-  border-color: transparent;
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #c7d2fe 0%, #ddd6fe 100%);
+  color: var(--primary-dark);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
 }
 
 .school-footer {
