@@ -84,7 +84,7 @@ function DataComparison() {
               const percentage = (school.examData.overall / maxRate) * 100;
               
               return (
-                <div key={school.id} className="chart-row" style={{animationDelay: `${index * 0.05}s`}}>
+                <div key={school.id} className="chart-row" style={{animationDelay: `${index * 0.02}s`}}>
                   <div className="chart-label">
                     <span className="school-rank">#{index + 1}</span>
                     <span className="school-name-text">{school.name}</span>
@@ -92,7 +92,7 @@ function DataComparison() {
                   <div className="chart-bar-container">
                     <div 
                       className="chart-bar" 
-                      style={{width: `${percentage}%`}}
+                      style={{width: `${percentage}%`, animationDelay: `${index * 0.02}s`}}
                       data-value={school.examData.overall}
                     >
                       <span className="bar-value">{school.examData.overall}%</span>
@@ -164,7 +164,7 @@ function DataComparison() {
               </thead>
               <tbody>
                 {schools.map((school, index) => (
-                  <tr key={school.id} style={{animationDelay: `${index * 0.03}s`}}>
+                  <tr key={school.id} style={{animationDelay: `${index * 0.015}s`}}>
                     <td>
                       <div className="rank-badge">
                         {index === 0 && '🥇'}
