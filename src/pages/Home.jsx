@@ -7,6 +7,19 @@ import './Home.css';
 function Home() {
   const [schools, setSchools] = useState([]);
   const [sortBy, setSortBy] = useState('rating'); // rating or reviewCount
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // 检测是否为移动端
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     // 加载并排序驾校数据
@@ -107,7 +120,7 @@ function Home() {
           </div>
 
           <div className="schools-grid">
-            {schools.slice(0, 6).map(school => (
+            {schools.slice(0, isMobile ? 3 : 6).map(school => (
               <SchoolCard key={school.id} school={school} />
             ))}
           </div>
@@ -118,7 +131,7 @@ function Home() {
             </div>
           )}
 
-          {schools.length > 6 && (
+          {schools.length > (isMobile ? 3 : 6) && (
             <div className="view-all-container">
               <Link to="/all-schools" className="view-all-button">
                 查看全部 {schools.length} 所驾校

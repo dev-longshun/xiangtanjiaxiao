@@ -10,6 +10,9 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .school-card::before {
@@ -22,10 +25,19 @@
   background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
   transform: scaleX(0);
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
 }
 
 .school-card:hover::before {
   transform: scaleX(1);
+}
+
+.school-card:focus {
+  outline: none;
+}
+
+.school-card * {
+  user-select: none;
 }
 
 .school-card:hover {
@@ -47,6 +59,8 @@
   color: white;
   font-weight: 600;
   flex: 1;
+  user-select: none;
+  cursor: pointer;
 }
 
 .rating {
@@ -105,6 +119,8 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  user-select: none;
+  cursor: pointer;
 }
 
 .school-tags {
@@ -150,16 +166,71 @@
 
 @media (max-width: 768px) {
   .school-card {
-    padding: 1.25rem;
+    padding: 1rem;
+  }
+
+  .school-card::before {
+    display: none;
+  }
+
+  .school-card:hover {
+    transform: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .school-card-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
   .school-card-header h2 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+  }
+
+  .rating {
+    padding: 0.4rem 0.8rem;
+  }
+
+  .rating-score {
+    font-size: 1rem;
+  }
+
+  .star-icon {
+    font-size: 0.85rem;
+  }
+
+  .school-info {
+    margin-bottom: 0.75rem;
+  }
+
+  .info-item {
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .school-description {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    -webkit-line-clamp: 2;
+    margin-bottom: 0.75rem;
+  }
+
+  .school-tags {
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
   }
 
   .school-footer {
-    flex-direction: column;
-    align-items: flex-start;
+    padding-top: 0.75rem;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
     gap: 0.5rem;
   }
 }

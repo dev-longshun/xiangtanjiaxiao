@@ -6,6 +6,10 @@
 }
 
 .back-button {
+  position: fixed;
+  top: 90px;
+  left: 1.5rem;
+  z-index: 999;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -14,16 +18,17 @@
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-lg);
   transition: all 0.3s ease;
-  margin-bottom: 2rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(15, 12, 41, 0.85);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .back-button:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: translateX(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  border-color: rgba(99, 102, 241, 0.5);
 }
 
 .page-title {
@@ -406,50 +411,81 @@
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+  .back-button {
+    top: 80px;
+    left: 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .page-title {
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+  }
+
   .page-title h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .page-title p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .stats-overview {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 1.5rem;
+  }
+
+  .stat-icon {
+    font-size: 2rem;
   }
 
   .stat-value {
-    font-size: 2.25rem;
+    font-size: 2rem;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+  }
+
+  .comparison-section h2,
+  .subjects-section h2,
+  .table-section h2 {
+    font-size: 1.35rem;
   }
 
   .chart-row {
-    grid-template-columns: 100px 1fr;
-    gap: 0.75rem;
-    margin-bottom: 0.6rem;
+    grid-template-columns: 90px 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .school-rank {
-    width: 24px;
-    height: 24px;
-    font-size: 0.75rem;
+    width: 22px;
+    height: 22px;
+    font-size: 0.7rem;
   }
 
   .school-name-text {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .chart-bar-container {
-    height: 32px;
+    height: 28px;
   }
 
   .bar-value {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    padding-right: 0.5rem;
   }
 
   .subjects-grid {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 1rem;
   }
 
   .subject-card {
@@ -457,32 +493,46 @@
   }
 
   .subject-card h3 {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
+  }
+
+  .subject-school-name {
+    font-size: 0.75rem;
+  }
+
+  .subject-bar-wrapper {
+    height: 20px;
+  }
+
+  .subject-bar-label {
+    font-size: 0.75rem;
   }
 
   .data-table-container {
-    padding: 1rem;
+    padding: 0.75rem;
+    overflow-x: auto;
   }
 
   .data-table {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    min-width: 600px;
   }
 
   .data-table th,
   .data-table td {
-    padding: 0.65rem 0.5rem;
+    padding: 0.6rem 0.4rem;
   }
 
   .data-table th {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
 
   .rank-badge {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .overall-cell {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 }
 

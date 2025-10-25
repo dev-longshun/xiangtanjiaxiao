@@ -6,24 +6,29 @@
 }
 
 .back-button {
+  position: fixed;
+  top: 90px;
+  left: 1.5rem;
+  z-index: 999;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   color: white;
   font-weight: 600;
-  margin-bottom: 2rem;
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(15, 12, 41, 0.85);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .back-button:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: translateX(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  border-color: rgba(99, 102, 241, 0.5);
 }
 
 .not-found {
@@ -195,6 +200,47 @@
   color: white;
 }
 
+.reviews-header .sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.reviews-header .sort-controls label {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.reviews-header .sort-select {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  caret-color: white;
+}
+
+.reviews-header .sort-select:hover,
+.reviews-header .sort-select:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  outline: none;
+}
+
+.reviews-header .sort-select option {
+  background: #302b63;
+  color: white;
+}
+
 .reviews-list {
   display: flex;
   flex-direction: column;
@@ -234,8 +280,16 @@
 }
 
 @media (max-width: 768px) {
+  .back-button {
+    top: 80px;
+    left: 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
   .school-header {
     padding: 1.5rem;
+    margin-top: 3rem;
   }
 
   .school-main-info h1 {

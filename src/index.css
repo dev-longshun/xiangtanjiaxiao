@@ -67,6 +67,27 @@ a {
 button {
   font-family: inherit;
   cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+input[type="text"],
+input[type="search"] {
+  caret-color: #a78bfa !important;
+  -webkit-text-fill-color: #ffffff;
+}
+
+input:focus {
+  caret-color: #a78bfa !important;
+}
+
+select {
+  cursor: pointer;
+  user-select: none;
 }
 
 .container {
