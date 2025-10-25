@@ -63,7 +63,7 @@ npm install
 npm run dev
 ```
 
-访问 http://localhost:5173 查看网站
+访问 https://xiangtanjiaxiao.vercel.app/ 查看网站
 
 ### 构建生产版本
 
