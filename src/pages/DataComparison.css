@@ -1,0 +1,507 @@
+.data-comparison-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  padding: 2rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.data-comparison-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.data-comparison-page .container {
+  position: relative;
+  z-index: 1;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-lg);
+  transition: all 0.3s ease;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-title h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.page-title p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+}
+
+/* 统计卡片 */
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.stat-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0.5;
+}
+
+.card-primary { color: #667eea; }
+.card-success { color: #10b981; }
+.card-warning { color: #f59e0b; }
+
+.stat-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.3;
+}
+
+.stat-label {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 3rem;
+  font-weight: 900;
+  color: white;
+  line-height: 1;
+  animation: countUp 2s ease-out;
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-glow {
+  position: absolute;
+  bottom: -50%;
+  right: -50%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, currentColor 0%, transparent 70%);
+  opacity: 0.1;
+  animation: glow 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.2); opacity: 0.2; }
+}
+
+/* 对比图表 */
+.comparison-section {
+  margin-bottom: 3rem;
+}
+
+.comparison-section h2 {
+  font-size: 1.75rem;
+  color: white;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.chart-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  animation: slideIn 0.6s ease-out backwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.chart-row:last-child {
+  margin-bottom: 0;
+}
+
+.chart-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  font-weight: 600;
+}
+
+.school-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.school-name-text {
+  font-size: 0.9rem;
+}
+
+.chart-bar-container {
+  position: relative;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.chart-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1rem;
+  position: relative;
+  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: expandBar 1.5s ease-out;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+}
+
+@keyframes expandBar {
+  from { width: 0 !important; }
+}
+
+.bar-value {
+  color: white;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 科目对比 */
+.subjects-section {
+  margin-bottom: 3rem;
+}
+
+.subjects-section h2 {
+  font-size: 1.75rem;
+  color: white;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.subject-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.subject-card h3 {
+  font-size: 1.25rem;
+  color: white;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.subject-bar-item {
+  margin-bottom: 0.75rem;
+}
+
+.subject-bar-item:last-child {
+  margin-bottom: 0;
+}
+
+.subject-school-name {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.subject-bar-wrapper {
+  position: relative;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.subject-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #06b6d4 0%, #0ea5e9 100%);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.6rem;
+  transition: width 1s ease-out;
+  animation: expandBar 1s ease-out;
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+}
+
+.subject-bar-label {
+  color: white;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+/* 数据表格 */
+.table-section {
+  margin-bottom: 3rem;
+}
+
+.table-section h2 {
+  font-size: 1.75rem;
+  color: white;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.data-table-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table thead tr {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.data-table th {
+  padding: 0.75rem 0.75rem;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.data-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.data-table td {
+  padding: 0.875rem 0.75rem;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.school-name-cell {
+  font-weight: 600;
+  color: #a5b4fc;
+}
+
+.overall-cell {
+  font-weight: 700;
+  color: #10b981;
+  font-size: 1rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .page-title h1 {
+    font-size: 2rem;
+  }
+
+  .page-title p {
+    font-size: 0.95rem;
+  }
+
+  .stats-overview {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .stat-value {
+    font-size: 2.25rem;
+  }
+
+  .chart-row {
+    grid-template-columns: 100px 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .school-rank {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+
+  .school-name-text {
+    font-size: 0.8rem;
+  }
+
+  .chart-bar-container {
+    height: 32px;
+  }
+
+  .bar-value {
+    font-size: 0.85rem;
+  }
+
+  .subjects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .subject-card {
+    padding: 1.25rem;
+  }
+
+  .subject-card h3 {
+    font-size: 1.15rem;
+  }
+
+  .data-table-container {
+    padding: 1rem;
+  }
+
+  .data-table {
+    font-size: 0.8rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.65rem 0.5rem;
+  }
+
+  .data-table th {
+    font-size: 0.75rem;
+  }
+
+  .rank-badge {
+    font-size: 1rem;
+  }
+
+  .overall-cell {
+    font-size: 0.9rem;
+  }
+}
+

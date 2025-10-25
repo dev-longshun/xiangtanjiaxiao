@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaHome, FaPaperPlane, FaInfoCircle } from 'react-icons/fa';
+import { FaHome, FaChartBar, FaPaperPlane, FaInfoCircle } from 'react-icons/fa';
 import './Header.css';
 
 function Header() {
@@ -12,6 +12,9 @@ function Header() {
         <nav className="nav">
           <Link to="/" className="nav-link">
             <FaHome /> 首页
+          </Link>
+          <Link to="/data-comparison" className="nav-link">
+            <FaChartBar /> 数据统计
           </Link>
           <Link to="/submit" className="nav-link">
             <FaPaperPlane /> 投稿

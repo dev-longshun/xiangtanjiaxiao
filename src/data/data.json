@@ -9,7 +9,16 @@
       "rating": 4.7,
       "reviewCount": 3,
       "tags": ["通过率高", "教练耐心", "场地宽敞"],
-      "courses": ["C1", "C2"]
+      "courses": ["C1", "C2"],
+      "examData": {
+        "subject1": 96,
+        "subject2": 88,
+        "subject3": 91,
+        "subject4": 97,
+        "overall": 93,
+        "totalStudents": 1280,
+        "passedStudents": 1190
+      }
     },
     {
       "id": "school-002",
@@ -20,7 +29,16 @@
       "rating": 4.5,
       "reviewCount": 2,
       "tags": ["小班教学", "收费透明", "服务周到"],
-      "courses": ["C1", "C2"]
+      "courses": ["C1", "C2"],
+      "examData": {
+        "subject1": 94,
+        "subject2": 90,
+        "subject3": 89,
+        "subject4": 95,
+        "overall": 92,
+        "totalStudents": 856,
+        "passedStudents": 787
+      }
     },
     {
       "id": "school-003",
@@ -31,7 +49,16 @@
       "rating": 2.5,
       "reviewCount": 2,
       "tags": ["接送服务", "年轻教练", "练车方便"],
-      "courses": ["C1", "C2", "C3"]
+      "courses": ["C1", "C2", "C3"],
+      "examData": {
+        "subject1": 88,
+        "subject2": 75,
+        "subject3": 79,
+        "subject4": 90,
+        "overall": 83,
+        "totalStudents": 642,
+        "passedStudents": 533
+      }
     },
     {
       "id": "school-004",
@@ -42,7 +69,16 @@
       "rating": 4.3,
       "reviewCount": 3,
       "tags": ["正规资质", "通过率稳定", "教练专业"],
-      "courses": ["C1", "C2"]
+      "courses": ["C1", "C2"],
+      "examData": {
+        "subject1": 95,
+        "subject2": 87,
+        "subject3": 90,
+        "subject4": 96,
+        "overall": 92,
+        "totalStudents": 1156,
+        "passedStudents": 1063
+      }
     },
     {
       "id": "school-005",
@@ -53,7 +89,16 @@
       "rating": 3.8,
       "reviewCount": 4,
       "tags": ["快速拿证", "时间灵活", "模拟考试"],
-      "courses": ["C1", "C2", "C3"]
+      "courses": ["C1", "C2", "C3"],
+      "examData": {
+        "subject1": 92,
+        "subject2": 84,
+        "subject3": 86,
+        "subject4": 94,
+        "overall": 89,
+        "totalStudents": 987,
+        "passedStudents": 878
+      }
     },
     {
       "id": "school-006",
@@ -64,7 +109,16 @@
       "rating": 4.6,
       "reviewCount": 3,
       "tags": ["老牌驾校", "经验丰富", "环境优美"],
-      "courses": ["C1", "C2"]
+      "courses": ["C1", "C2"],
+      "examData": {
+        "subject1": 97,
+        "subject2": 89,
+        "subject3": 92,
+        "subject4": 98,
+        "overall": 94,
+        "totalStudents": 1425,
+        "passedStudents": 1340
+      }
     },
     {
       "id": "school-007",
@@ -75,7 +129,16 @@
       "rating": 4.0,
       "reviewCount": 2,
       "tags": ["小班教学", "练车充足", "价格实惠"],
-      "courses": ["C1"]
+      "courses": ["C1"],
+      "examData": {
+        "subject1": 93,
+        "subject2": 86,
+        "subject3": 88,
+        "subject4": 95,
+        "overall": 90,
+        "totalStudents": 735,
+        "passedStudents": 662
+      }
     },
     {
       "id": "school-008",
@@ -86,7 +149,16 @@
       "rating": 4.4,
       "reviewCount": 4,
       "tags": ["智能预约", "教练可选", "管理规范"],
-      "courses": ["C1", "C2", "C3"]
+      "courses": ["C1", "C2", "C3"],
+      "examData": {
+        "subject1": 96,
+        "subject2": 88,
+        "subject3": 91,
+        "subject4": 97,
+        "overall": 93,
+        "totalStudents": 1098,
+        "passedStudents": 1021
+      }
     },
     {
       "id": "school-009",
@@ -97,7 +169,16 @@
       "rating": 3.5,
       "reviewCount": 2,
       "tags": ["收费透明", "无隐形消费", "不过包补"],
-      "courses": ["C1", "C2"]
+      "courses": ["C1", "C2"],
+      "examData": {
+        "subject1": 90,
+        "subject2": 82,
+        "subject3": 84,
+        "subject4": 92,
+        "overall": 87,
+        "totalStudents": 578,
+        "passedStudents": 503
+      }
     },
     {
       "id": "school-010",
@@ -108,7 +189,16 @@
       "rating": 4.8,
       "reviewCount": 3,
       "tags": ["VIP教学", "一对一", "服务优质"],
-      "courses": ["C1", "C2"]
+      "courses": ["C1", "C2"],
+      "examData": {
+        "subject1": 98,
+        "subject2": 92,
+        "subject3": 94,
+        "subject4": 99,
+        "overall": 96,
+        "totalStudents": 456,
+        "passedStudents": 438
+      }
     },
     {
       "id": "school-011",
@@ -119,7 +209,16 @@
       "rating": 3.2,
       "reviewCount": 3,
       "tags": ["场地大", "设施完善", "环境舒适"],
-      "courses": ["C1", "C2", "C3"]
+      "courses": ["C1", "C2", "C3"],
+      "examData": {
+        "subject1": 89,
+        "subject2": 78,
+        "subject3": 81,
+        "subject4": 91,
+        "overall": 85,
+        "totalStudents": 698,
+        "passedStudents": 593
+      }
     }
   ],
   "reviews": [
