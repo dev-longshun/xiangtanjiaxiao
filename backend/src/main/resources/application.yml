@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: jiaxiao-backend
+  
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/jiaxiao?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8mb4&allowPublicKeyRetrieval=true
+    username: root
+    password: ${DB_PASSWORD:123456}  # 从环境变量读取，默认 123456（仅开发用）
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+  
+  # MVC 配置
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+  type-aliases-package: com.xiangtan.jiaxiao.model.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 开发环境打印 SQL
+  global-config:
+    db-config:
+      logic-delete-field: isActive  # 逻辑删除字段
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+# Swagger UI 配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: '用户接口'
+      paths-to-match: '/api/**'
+      paths-to-exclude: '/api/admin/**'
+    - group: '管理接口'
+      paths-to-match: '/api/admin/**'
+
+# JWT 配置
+jwt:
+  secret: ${JWT_SECRET:your-256-bit-secret-key-change-in-production}  # 生产环境必须替换
+  expiration: 86400000  # 24小时（毫秒）
+  header: Authorization
+  prefix: Bearer 
+
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.xiangtan.jiaxiao: DEBUG
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'
