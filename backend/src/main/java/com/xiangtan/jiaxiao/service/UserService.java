@@ -1,58 +1,25 @@
 package com.xiangtan.jiaxiao.service;
 
-import com.xiangtan.jiaxiao.mapper.UserMapper;
 import com.xiangtan.jiaxiao.model.entity.User;
-import com.xiangtan.jiaxiao.util.JwtUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 /**
- * 用户服务
+ * 用户服务接口
+ * 约束管理员登录与微信登录相关的核心能力
  */
-@Service
-@RequiredArgsConstructor
-public class UserService {
+public interface UserService {
 
-    private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    /** 管理员登录（用户名+密码） */
+    String adminLogin(String username, String password);
 
-    /**
-     * 用户登录验证
-     * @param username 用户名
-     * @param password 明文密码
-     * @return JWT Token（失败返回 null）
-     */
-    public String login(String username, String password) {
-        // 查询用户
-        User user = userMapper.selectByUsername(username);
-        if (user == null) {
-            return null;
-        }
+    /** 微信登录（openid 等信息） */
+    String wechatLogin(String openid, String nickname, String avatar, String unionid);
 
-        // 验证密码
-        if (!passwordEncoder.matches(password, user.getPasswordHash())) {
-            return null;
-        }
+    /** 根据用户名查询（管理员） */
+    User getUserByUsername(String username);
 
-        // 生成 JWT Token
-        return jwtUtil.generateToken(user.getUsername(), user.getId(), user.getRoles());
-    }
+    /** 根据 openid 查询（微信用户） */
+    User getUserByOpenid(String openid);
 
-    /**
-     * 根据用户名查询用户
-     */
-    public User getUserByUsername(String username) {
-        return userMapper.selectByUsername(username);
-    }
-
-    /**
-     * 创建用户
-     */
-    public void createUser(User user) {
-        // 密码加密
-        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-        userMapper.insert(user);
-    }
+    /** 创建用户（管理员或初始化） */
+    void createUser(User user);
 }

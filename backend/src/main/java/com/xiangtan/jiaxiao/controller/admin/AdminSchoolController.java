@@ -1,14 +1,12 @@
 package com.xiangtan.jiaxiao.controller.admin;
 
+import com.xiangtan.jiaxiao.model.common.Result;
 import com.xiangtan.jiaxiao.model.entity.School;
 import com.xiangtan.jiaxiao.service.SchoolService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * 驾校管理控制器（需要 ADMIN 权限）
@@ -26,9 +24,9 @@ public class AdminSchoolController {
      */
     @PostMapping
     @Operation(summary = "创建驾校", description = "管理员添加新驾校")
-    public ResponseEntity<?> createSchool(@RequestBody School school) {
+    public Result<Void> createSchool(@RequestBody School school) {
         schoolService.createSchool(school);
-        return ResponseEntity.ok(Map.of("message", "驾校创建成功"));
+        return Result.success("驾校创建成功");
     }
 
     /**
@@ -36,10 +34,10 @@ public class AdminSchoolController {
      */
     @PutMapping("/{id}")
     @Operation(summary = "更新驾校", description = "管理员更新驾校信息")
-    public ResponseEntity<?> updateSchool(@PathVariable String id, @RequestBody School school) {
+    public Result<Void> updateSchool(@PathVariable String id, @RequestBody School school) {
         school.setId(id);
         schoolService.updateSchool(school);
-        return ResponseEntity.ok(Map.of("message", "驾校更新成功"));
+        return Result.success("驾校更新成功");
     }
 
     /**
@@ -47,8 +45,8 @@ public class AdminSchoolController {
      */
     @DeleteMapping("/{id}")
     @Operation(summary = "删除驾校", description = "管理员逻辑删除驾校")
-    public ResponseEntity<?> deleteSchool(@PathVariable String id) {
+    public Result<Void> deleteSchool(@PathVariable String id) {
         schoolService.deleteSchool(id);
-        return ResponseEntity.ok(Map.of("message", "驾校删除成功"));
+        return Result.success("驾校删除成功");
     }
 }

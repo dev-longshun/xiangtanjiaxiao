@@ -1,17 +1,16 @@
 package com.xiangtan.jiaxiao.controller.admin;
 
+import com.xiangtan.jiaxiao.model.common.Result;
 import com.xiangtan.jiaxiao.model.entity.Review;
 import com.xiangtan.jiaxiao.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-
 /**
  * 评价管理控制器（需要 ADMIN 权限）
  */
@@ -28,8 +27,8 @@ public class AdminReviewController {
      */
     @GetMapping
     @Operation(summary = "待审核评价列表", description = "获取所有待审核评价")
-    public ResponseEntity<List<Review>> getPendingReviews() {
-        return ResponseEntity.ok(reviewService.getPendingReviews());
+    public Result<List<Review>> getPendingReviews() {
+        return Result.success(reviewService.getPendingReviews());
     }
 
     /**
@@ -37,10 +36,10 @@ public class AdminReviewController {
      */
     @PostMapping("/{id}/review")
     @Operation(summary = "审核评价", description = "管理员审核评价（通过或拒绝）")
-    public ResponseEntity<?> reviewApproval(@PathVariable Long id, @RequestBody ApprovalRequest request) {
+    public Result<Void> reviewApproval(@PathVariable Long id, @RequestBody ApprovalRequest request) {
         reviewService.reviewApproval(id, request.isApproved());
         String message = request.isApproved() ? "评价已通过" : "评价已拒绝";
-        return ResponseEntity.ok(Map.of("message", message));
+        return Result.success(message);
     }
 
     /**

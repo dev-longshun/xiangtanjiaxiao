@@ -38,6 +38,12 @@ public class Review {
     private Integer rating;
     
     /**
+     * 事实证明图片（JSON 数组，存储图片 URL 列表）
+     */
+    @TableField(typeHandler = com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler.class)
+    private java.util.List<String> evidenceImages;
+    
+    /**
      * 评价时间
      */
     private LocalDateTime reviewDate;
