@@ -1,0 +1,63 @@
+# 生产环境配置
+spring:
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:jiaxiao}?useSSL=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8mb4
+    username: ${DB_USERNAME}  # 生产环境必须从环境变量读取
+    password: ${DB_PASSWORD}  # 生产环境必须从环境变量读取
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl  # 生产环境使用 SLF4J
+
+# JWT 配置
+jwt:
+  secret: ${JWT_SECRET}  # 生产环境必须从环境变量读取，不提供默认值
+  expiration: 86400000  # 24小时
+  header: Authorization
+  prefix: Bearer
+
+# 微信配置
+wechat:
+  appid: ${WECHAT_APPID}  # 生产环境必须从环境变量读取
+  secret: ${WECHAT_SECRET}  # 生产环境必须从环境变量读取
+
+# 文件上传配置
+file:
+  upload:
+    base-path: ${FILE_UPLOAD_PATH:/opt/jiaxiao/uploads}  # 生产环境使用绝对路径
+    review-image-path: reviews
+    max-file-size: 5242880
+    max-file-count: 9
+    allowed-extensions: jpg,jpeg,png,gif,webp,bmp
+    url-prefix: /uploads
+
+# 服务器配置
+server:
+  port: ${SERVER_PORT:7070}
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+# 日志配置（生产环境精简日志）
+logging:
+  level:
+    root: WARN
+    com.xiangtan.jiaxiao: INFO
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n'
+  file:
+    name: /var/log/jiaxiao/application.log  # 生产环境日志文件
+    max-size: 100MB
+    max-history: 30
