@@ -12,26 +12,22 @@ USE jiaxiao;
 
 -- =============================================
 -- 1. 用户表（users）
--- 支持微信登录和管理员账号两种方式
+-- 支持用户名密码注册登录
 -- =============================================
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    username VARCHAR(50) UNIQUE COMMENT '用户名（管理员使用，微信用户为 NULL）',
-    password_hash VARCHAR(255) COMMENT '密码哈希（仅管理员使用 BCrypt，微信用户为 NULL）',
-    openid VARCHAR(100) UNIQUE COMMENT '微信 OpenID（唯一标识，用于微信登录）',
-    unionid VARCHAR(100) COMMENT '微信 UnionID（多应用统一标识，可选）',
-    nickname VARCHAR(100) COMMENT '昵称（微信昵称或自定义昵称）',
-    avatar VARCHAR(500) COMMENT '头像 URL（微信头像）',
+    username VARCHAR(50) NOT NULL UNIQUE COMMENT '用户名（系统生成的数字ID，如 10001）',
+    password_hash VARCHAR(255) NOT NULL COMMENT '密码哈希（BCrypt 加密）',
+    nickname VARCHAR(50) NOT NULL COMMENT '昵称（用户设置，用于评论展示）',
     roles VARCHAR(100) NOT NULL DEFAULT 'ROLE_USER' COMMENT '角色（ROLE_ADMIN, ROLE_USER）',
     email VARCHAR(100) COMMENT '邮箱（可选）',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     is_active TINYINT NOT NULL DEFAULT 1 COMMENT '是否激活（1=激活, 0=禁用，逻辑删除标志）',
     INDEX idx_username (username),
-    INDEX idx_openid (openid),
-    INDEX idx_unionid (unionid),
+    INDEX idx_nickname (nickname),
     INDEX idx_roles (roles)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表（支持微信登录）';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表';
 
 -- =============================================
 -- 2. 驾校表（schools）

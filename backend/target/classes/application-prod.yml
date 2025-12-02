@@ -25,11 +25,6 @@ jwt:
   header: Authorization
   prefix: Bearer
 
-# 微信配置
-wechat:
-  appid: ${WECHAT_APPID}  # 生产环境必须从环境变量读取
-  secret: ${WECHAT_SECRET}  # 生产环境必须从环境变量读取
-
 # 文件上传配置
 file:
   upload:

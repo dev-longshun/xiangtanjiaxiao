@@ -21,11 +21,6 @@ jwt:
   secret: dev-secret-key-for-testing-only-change-in-production  # 开发环境测试密钥
   expiration: 86400000  # 24小时
 
-# 微信配置（开发环境可使用测试账号）
-wechat:
-  appid: ${WECHAT_APPID:your-wechat-appid}
-  secret: ${WECHAT_SECRET:your-wechat-secret}
-
 # 文件上传配置
 file:
   upload:

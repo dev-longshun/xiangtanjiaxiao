@@ -3,22 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiangtan.jiaxiao.mapper.UserMapper">
     
-    <!-- 根据用户名查询用户（管理员登录） -->
+    <!-- 根据用户名查询用户 -->
     <select id="selectByUsername" resultType="User">
         SELECT 
-            id, username, password_hash, roles, email, 
+            id, username, password_hash, nickname, roles, email, 
             created_at, updated_at, is_active
         FROM users
         WHERE username = #{username} AND is_active = 1
-    </select>
-    
-    <!-- 根据微信 OpenID 查询用户（微信登录） -->
-    <select id="selectByOpenid" resultType="User">
-        SELECT 
-            id, openid, unionid, nickname, avatar, roles, email,
-            created_at, updated_at, is_active
-        FROM users
-        WHERE openid = #{openid} AND is_active = 1
     </select>
     
 </mapper>
