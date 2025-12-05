@@ -106,6 +106,19 @@ public class JwtUtil {
     }
 
     /**
+     * 从 Token 中获取过期时间（毫秒戳）
+     * 用于退出登录时将 Token 加入黑名单
+     */
+    public long getExpiryTimeFromToken(String token) {
+        try {
+            Claims claims = getClaimsFromToken(token);
+            return claims.getExpiration().getTime();
+        } catch (Exception e) {
+            return System.currentTimeMillis(); // 异常时返回当前时间（立即失效）
+        }
+    }
+
+    /**
      * 解析 Token 获取 Claims
      */
     private Claims getClaimsFromToken(String token) {
