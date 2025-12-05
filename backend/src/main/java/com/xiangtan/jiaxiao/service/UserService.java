@@ -20,6 +20,12 @@ public interface UserService {
     /** 根据用户名查询 */
     User getUserByUsername(String username);
 
+    /** 根据昵称模糊搜索用户（公开接口，返回脱敏信息） */
+    java.util.List<User> searchByNickname(String keyword);
+
+    /** 管理员修改用户昵称（校验唯一性） */
+    void updateUserNickname(Long userId, String newNickname);
+
     /** 创建用户（管理员或初始化） */
     void createUser(User user);
 }

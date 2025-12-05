@@ -40,7 +40,7 @@ public class AuthController {
      * 用户登录
      */
     @PostMapping("/login")
-    @Operation(summary = "用户登录", description = "通过用户名（系统生成的数字ID）和密码登录")
+    @Operation(summary = "用户登录", description = "通过用户名（系统生成的数字ID）或唯一昵称和密码登录")
     public Result<?> login(@RequestBody LoginRequest request) {
         String token = userService.login(request.getUsername(), request.getPassword());
         

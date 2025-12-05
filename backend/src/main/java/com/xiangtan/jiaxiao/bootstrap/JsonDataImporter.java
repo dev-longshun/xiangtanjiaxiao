@@ -79,27 +79,33 @@ public class JsonDataImporter implements CommandLineRunner {
             JsonObject schoolJson = element.getAsJsonObject();
 
             School school = new School();
-            school.setId(schoolJson.get("id").getAsString());
-            school.setName(schoolJson.get("name").getAsString());
-            school.setNamePinyin(schoolJson.get("name_pinyin").getAsString());
-            school.setRating(schoolJson.get("rating").getAsDouble());
-            school.setReviewCount(schoolJson.get("review_count").getAsInt());
-            school.setPassRate(schoolJson.get("pass_rate").getAsDouble());
+            // 兼容驼峰/下划线命名的数据源，并做好空值兜底
+            school.setId(getAsString(schoolJson, "id", null));
+            school.setName(getAsString(schoolJson, "name", ""));
+            // namePinyin 可能不存在，允许为空
+            school.setNamePinyin(getAsString(schoolJson, "name_pinyin", getAsString(schoolJson, "namePinyin", null)));
+            school.setRating(getAsDouble(schoolJson, "rating", 0.0));
+            school.setReviewCount(getAsInt(schoolJson, "review_count", getAsInt(schoolJson, "reviewCount", 0)));
+            school.setPassRate(getAsDouble(schoolJson, "pass_rate", getAsDouble(schoolJson, "overall", null)));
             
             // JSON 字段直接存储为字符串（数据库使用 JSON 类型）
-            school.setTags(schoolJson.get("tags").toString());
-            school.setCourses(schoolJson.get("courses").toString());
-            school.setExamData(schoolJson.get("exam_data").toString());
+            school.setTags(getAsJsonString(schoolJson, "tags"));
+            school.setCourses(getAsJsonString(schoolJson, "courses"));
+            // exam_data 或 examData
+            String examData = getAsJsonString(schoolJson, "exam_data");
+            if (examData == null) examData = getAsJsonString(schoolJson, "examData");
+            school.setExamData(examData);
             
-            school.setAddress(schoolJson.get("address").getAsString());
-            school.setPhone(schoolJson.get("phone").getAsString());
-            school.setBusinessHours(schoolJson.get("business_hours").getAsString());
-            school.setPriceRange(schoolJson.get("price_range").getAsString());
+            school.setAddress(getAsString(schoolJson, "address", ""));
+            school.setPhone(getAsString(schoolJson, "phone", ""));
+            school.setBusinessHours(getAsString(schoolJson, "business_hours", getAsString(schoolJson, "businessHours", null)));
+            school.setPriceRange(getAsString(schoolJson, "price_range", getAsString(schoolJson, "priceRange", null)));
             
-            if (schoolJson.has("description") && !schoolJson.get("description").isJsonNull()) {
-                school.setDescription(schoolJson.get("description").getAsString());
-            }
+            school.setDescription(getAsString(schoolJson, "description", null));
             
+            // 兜底设置时间戳（即使 MetaObjectHandler 已配置，仍显式兜底）
+            school.setCreatedAt(LocalDateTime.now());
+            school.setUpdatedAt(LocalDateTime.now());
             school.setIsActive(1);
 
             schoolService.createSchool(school);
@@ -113,20 +119,35 @@ public class JsonDataImporter implements CommandLineRunner {
      */
     private void importReviews(JsonArray reviewsArray) {
         int count = 0;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatterFull = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         for (JsonElement element : reviewsArray) {
             JsonObject reviewJson = element.getAsJsonObject();
 
             Review review = new Review();
-            review.setSchoolId(reviewJson.get("school_id").getAsString());
-            review.setAuthor(reviewJson.get("author").getAsString());
-            review.setContent(reviewJson.get("content").getAsString());
-            review.setRating(reviewJson.get("rating").getAsInt());
+            // 兼容字段命名差异
+            String schoolId = getAsString(reviewJson, "school_id", getAsString(reviewJson, "schoolId", null));
+            review.setSchoolId(schoolId);
+            review.setAuthor(getAsString(reviewJson, "author", "匿名学员"));
+            review.setContent(getAsString(reviewJson, "content", ""));
+            review.setRating(getAsInt(reviewJson, "rating", 5));
             
-            String dateStr = reviewJson.get("date").getAsString();
-            review.setReviewDate(LocalDateTime.parse(dateStr, formatter));
+            String dateStr = getAsString(reviewJson, "date", null);
+            if (dateStr != null) {
+                // 支持 YYYY-MM-DD 与 YYYY-MM-DD HH:mm:ss
+                LocalDateTime dt;
+                if (dateStr.length() == 10) {
+                    dt = formatterDate.parse(dateStr, java.time.LocalDate::from).atStartOfDay();
+                } else {
+                    dt = LocalDateTime.parse(dateStr, formatterFull);
+                }
+                review.setReviewDate(dt);
+            }
             
+            // 兜底设置时间戳
+            review.setCreatedAt(LocalDateTime.now());
+            review.setUpdatedAt(LocalDateTime.now());
             review.setStatus("APPROVED");  // 历史数据默认已审核
             review.setIsActive(1);
 
@@ -134,5 +155,51 @@ public class JsonDataImporter implements CommandLineRunner {
             count++;
         }
         log.info("成功导入 {} 条评价数据", count);
+    }
+
+    // =====================
+    // 工具方法：安全读取
+    // =====================
+    private String getAsString(JsonObject obj, String key, String defaultVal) {
+        if (obj == null) return defaultVal;
+        if (!obj.has(key) || obj.get(key).isJsonNull()) return defaultVal;
+        JsonElement el = obj.get(key);
+        try {
+            return el.getAsString();
+        } catch (Exception e) {
+            return defaultVal;
+        }
+    }
+
+    private Integer getAsInt(JsonObject obj, String key, Integer defaultVal) {
+        if (obj == null) return defaultVal;
+        if (!obj.has(key) || obj.get(key).isJsonNull()) return defaultVal;
+        JsonElement el = obj.get(key);
+        try {
+            return el.getAsInt();
+        } catch (Exception e) {
+            return defaultVal;
+        }
+    }
+
+    private Double getAsDouble(JsonObject obj, String key, Double defaultVal) {
+        if (obj == null) return defaultVal;
+        if (!obj.has(key) || obj.get(key).isJsonNull()) return defaultVal;
+        JsonElement el = obj.get(key);
+        try {
+            return el.getAsDouble();
+        } catch (Exception e) {
+            return defaultVal;
+        }
+    }
+
+    private String getAsJsonString(JsonObject obj, String key) {
+        if (obj == null) return null;
+        if (!obj.has(key) || obj.get(key).isJsonNull()) return null;
+        try {
+            return obj.get(key).toString();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -33,6 +33,7 @@ public class AdminInitializer implements CommandLineRunner {
         User admin = new User();
         admin.setUsername("admin");
         admin.setPasswordHash("123456");  // 将被 Service 层 BCrypt 加密
+        admin.setNickname("系统管理员");
         admin.setRoles("ROLE_ADMIN");
         admin.setEmail("admin@xiangtan-jiaxiao.com");
         admin.setIsActive(1);

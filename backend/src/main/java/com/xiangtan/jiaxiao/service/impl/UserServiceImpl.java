@@ -41,7 +41,13 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("昵称长度不能超过50个字符");
         }
 
-        // 2. 生成用户名（数字ID）
+        // 2. 昵称唯一性校验
+        User existByNick = userMapper.selectByNickname(nickname.trim());
+        if (existByNick != null) {
+            throw new IllegalArgumentException("昵称已被使用，请更换");
+        }
+
+        // 3. 生成用户名（数字ID）
         String username = generateUsername();
 
         // 3. 创建用户
@@ -84,7 +90,11 @@ public class UserServiceImpl implements UserService {
     /** 用户登录（用户名+密码） */
     @Override
     public String login(String username, String password) {
+        // 支持使用系统用户名或唯一昵称登录
         User user = userMapper.selectByUsername(username);
+        if (user == null) {
+            user = userMapper.selectByNickname(username);
+        }
         if (user == null) {
             log.warn("用户登录失败: 用户不存在, username={}", username);
             return null;
@@ -121,6 +131,55 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         return userMapper.selectByUsername(username);
+    }
+
+    /** 根据昵称模糊搜索用户（公开接口，返回脱敏信息） */
+    @Override
+    public java.util.List<User> searchByNickname(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("nickname", keyword.trim())
+                .eq("is_active", 1)
+                .select("id", "username", "nickname", "created_at"); // 仅返回非敏感字段
+        return userMapper.selectList(queryWrapper);
+    }
+
+    /** 管理员修改用户昵称（校验唯一性） */
+    @Override
+    public void updateUserNickname(Long userId, String newNickname) {
+        // 1. 校验参数
+        if (newNickname == null || newNickname.trim().isEmpty()) {
+            throw new IllegalArgumentException("昵称不能为空");
+        }
+        if (newNickname.length() > 50) {
+            throw new IllegalArgumentException("昵称长度不能超过50个字符");
+        }
+
+        // 2. 检查用户是否存在
+        User user = userMapper.selectById(userId);
+        if (user == null || user.getIsActive() == 0) {
+            throw new IllegalArgumentException("用户不存在");
+        }
+
+        // 3. 昵称未变化，直接返回
+        if (user.getNickname().equals(newNickname.trim())) {
+            log.info("昵称未变化，无需更新: userId={}, nickname={}", userId, newNickname);
+            return;
+        }
+
+        // 4. 校验新昵称是否已被占用
+        User existByNick = userMapper.selectByNickname(newNickname.trim());
+        if (existByNick != null && !existByNick.getId().equals(userId)) {
+            throw new IllegalArgumentException("昵称已被其他用户使用，请更换");
+        }
+
+        // 5. 更新昵称
+        user.setNickname(newNickname.trim());
+        userMapper.updateById(user);
+        log.info("管理员修改用户昵称成功: userId={}, oldNickname={}, newNickname={}", 
+                userId, user.getNickname(), newNickname);
     }
 
     /** 创建用户（管理员或初始化） */

@@ -15,4 +15,9 @@ public interface UserMapper extends BaseMapper<User> {
      * 根据用户名查询用户
      */
     User selectByUsername(@Param("username") String username);
+
+    /**
+     * 根据昵称查询用户（昵称唯一）
+     */
+    User selectByNickname(@Param("nickname") String nickname);
 }

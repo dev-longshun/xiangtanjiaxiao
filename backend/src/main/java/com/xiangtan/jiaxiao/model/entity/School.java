@@ -83,7 +83,6 @@ public class School {
     /**
      * 驾校简介
      */
-    @TableField(typeHandler = org.apache.ibatis.type.JdbcType.class)
     private String description;
     
     /**

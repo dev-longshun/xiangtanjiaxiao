@@ -75,6 +75,7 @@ public class SecurityConfig {
                                 "/api/schools/*",                  // 驾校详情
                                 "/api/schools/search",             // 驾校搜索
                                 "/api/reviews/school/*",           // 查看某驾校的评价
+                                "/api/users/search",               // 按昵称搜索用户（公开）
                                 "/swagger-ui/**",                  // Swagger UI
                                 "/v3/api-docs/**",                 // OpenAPI 文档
                                 "/swagger-ui.html"

@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     is_active TINYINT NOT NULL DEFAULT 1 COMMENT '是否激活（1=激活, 0=禁用，逻辑删除标志）',
     INDEX idx_username (username),
-    INDEX idx_nickname (nickname),
+    UNIQUE INDEX uq_nickname (nickname),
     INDEX idx_roles (roles)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表';
 
