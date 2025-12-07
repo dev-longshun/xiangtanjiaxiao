@@ -52,4 +52,34 @@ public class ReviewServiceImpl implements ReviewService {
         String status = approved ? "APPROVED" : "REJECTED";
         reviewMapper.updateStatus(id, status);
     }
+    
+    /** 审核驳回评价并填写原因（管理员） */
+    @Override
+    public void rejectReview(Long id, String rejectReason) {
+        reviewMapper.updateStatusWithReason(id, "REJECTED", rejectReason);
+    }
+    
+    /** 获取用户的所有投稿 */
+    @Override
+    public List<Review> getReviewsByAuthor(String author) {
+        QueryWrapper<Review> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("author", author)
+                .orderByDesc("created_at");
+        return reviewMapper.selectList(queryWrapper);
+    }
+    
+    /** 获取某驾校的所有评价（管理员，含各状态） */
+    @Override
+    public List<Review> getAllReviewsBySchoolId(String schoolId) {
+        QueryWrapper<Review> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("school_id", schoolId)
+                .orderByDesc("created_at");
+        return reviewMapper.selectList(queryWrapper);
+    }
+    
+    /** 删除评价（逻辑删除） */
+    @Override
+    public void deleteReview(Long id) {
+        reviewMapper.deleteById(id);
+    }
 }

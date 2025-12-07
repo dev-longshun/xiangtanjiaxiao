@@ -20,4 +20,16 @@ public interface ReviewService {
 
     /** 审核评价（管理员） */
     void reviewApproval(Long id, boolean approved);
+    
+    /** 审核驳回评价并填写原因（管理员） */
+    void rejectReview(Long id, String rejectReason);
+    
+    /** 获取用户的所有投稿 */
+    List<Review> getReviewsByAuthor(String author);
+    
+    /** 获取某驾校的所有评价（管理员，含各状态） */
+    List<Review> getAllReviewsBySchoolId(String schoolId);
+    
+    /** 删除评价（逻辑删除） */
+    void deleteReview(Long id);
 }

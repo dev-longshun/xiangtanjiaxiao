@@ -1,22 +1,131 @@
-import { useEffect } from 'react';
-import { FaQq, FaEnvelope, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
-import data from '../data/data.json';
-import './Submit.css';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  FaQq,
+  FaEnvelope,
+  FaCheckCircle,
+  FaExclamationTriangle,
+  FaStar,
+  FaUpload,
+  FaTimes,
+} from "react-icons/fa";
+import { useAuth } from "../contexts/AuthContext";
+import { schoolAPI, reviewAPI, uploadAPI } from "../services/api";
+import "./Submit.css";
 
 function Submit() {
-  const contact = data.contact;
+  const { user, isAuthenticated } = useAuth();
+  const [schools, setSchools] = useState([]);
+  const [formData, setFormData] = useState({
+    schoolId: "",
+    rating: 0,
+    content: "",
+  });
+  const [images, setImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState({ type: "", text: "" });
 
-  // 页面加载时滚动到顶部
+  const contact = {
+    qq: "123456789",
+    email: "xiangtan-jiaxiao@qq.com",
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    loadSchools();
   }, []);
+
+  const loadSchools = async () => {
+    try {
+      const response = await schoolAPI.getAll();
+      if (response.code === 200) {
+        setSchools(response.data || []);
+      }
+    } catch (error) {
+      console.error("加载驾校列表失败:", error);
+    }
+  };
+
+  const handleImageUpload = async (e) => {
+    const files = Array.from(e.target.files);
+    if (images.length + files.length > 9) {
+      setMessage({ type: "error", text: "最多上传9张图片" });
+      return;
+    }
+
+    setUploading(true);
+    try {
+      for (const file of files) {
+        if (file.size > 5 * 1024 * 1024) {
+          setMessage({ type: "error", text: `图片 ${file.name} 超过5MB限制` });
+          continue;
+        }
+        const response = await uploadAPI.uploadImage(file);
+        if (response.code === 200) {
+          setImages((prev) => [...prev, response.data]);
+        }
+      }
+    } catch {
+      setMessage({ type: "error", text: "图片上传失败" });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeImage = (index) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage({ type: "", text: "" });
+
+    if (!formData.schoolId) {
+      setMessage({ type: "error", text: "请选择驾校" });
+      return;
+    }
+    if (formData.rating === 0) {
+      setMessage({ type: "error", text: "请选择评分" });
+      return;
+    }
+    if (formData.content.length < 10 || formData.content.length > 500) {
+      setMessage({ type: "error", text: "评价内容需在10-500字之间" });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const review = {
+        schoolId: formData.schoolId,
+        author: user.nickname,
+        rating: formData.rating,
+        content: formData.content,
+        evidenceImages: images,
+      };
+      const response = await reviewAPI.submit(review);
+      if (response.code === 200) {
+        setMessage({ type: "success", text: "投稿成功，等待管理员审核" });
+        setFormData({ schoolId: "", rating: 0, content: "" });
+        setImages([]);
+      } else {
+        setMessage({ type: "error", text: response.message || "投稿失败" });
+      }
+    } catch (error) {
+      setMessage({ type: "error", text: error.message || "投稿失败" });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="submit-page">
       <div className="container">
         <div className="submit-header">
           <h1>投稿说明</h1>
-          <p className="subtitle">分享你的真实学车经历，帮助更多学员选择靠谱驾校</p>
+          <p className="subtitle">
+            分享你的真实学车经历，帮助更多学员选择靠谱驾校
+          </p>
         </div>
 
         <section className="contact-section">
@@ -118,13 +227,139 @@ function Submit() {
           </ul>
         </section>
 
+        {/* 在线投稿表单 */}
+        <section className="online-submit-section">
+          <h2>📝 在线投稿</h2>
+          {!isAuthenticated() ? (
+            <div className="login-prompt">
+              <p>请先登录后再投稿</p>
+              <div className="login-buttons">
+                <Link to="/login" className="login-btn">
+                  登录
+                </Link>
+                <Link to="/register" className="register-btn">
+                  注册
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <form className="submit-form" onSubmit={handleSubmit}>
+              {message.text && (
+                <div className={`form-message ${message.type}`}>
+                  {message.text}
+                </div>
+              )}
+
+              <div className="form-group">
+                <label>选择驾校 *</label>
+                <select
+                  value={formData.schoolId}
+                  onChange={(e) =>
+                    setFormData({ ...formData, schoolId: e.target.value })
+                  }
+                  disabled={submitting}
+                >
+                  <option value="">请选择驾校</option>
+                  {schools.map((school) => (
+                    <option key={school.id} value={school.id}>
+                      {school.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>评分 *</label>
+                <div className="rating-input">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <FaStar
+                      key={star}
+                      className={`star-btn ${
+                        formData.rating >= star ? "active" : ""
+                      }`}
+                      onClick={() =>
+                        !submitting &&
+                        setFormData({ ...formData, rating: star })
+                      }
+                    />
+                  ))}
+                  <span className="rating-text">
+                    {formData.rating > 0 ? `${formData.rating} 星` : "点击选择"}
+                  </span>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>评价内容 * (10-500字)</label>
+                <textarea
+                  value={formData.content}
+                  onChange={(e) =>
+                    setFormData({ ...formData, content: e.target.value })
+                  }
+                  placeholder="请详细描述你在该驾校的学车体验..."
+                  rows={6}
+                  disabled={submitting}
+                />
+                <span className="char-count">
+                  {formData.content.length}/500
+                </span>
+              </div>
+
+              <div className="form-group">
+                <label>上传证明图片 (可选，最多9张)</label>
+                <div className="image-upload-area">
+                  {images.map((url, index) => (
+                    <div key={index} className="image-preview">
+                      <img src={url} alt={`证明图片${index + 1}`} />
+                      <button
+                        type="button"
+                        className="remove-btn"
+                        onClick={() => removeImage(index)}
+                      >
+                        <FaTimes />
+                      </button>
+                    </div>
+                  ))}
+                  {images.length < 9 && (
+                    <label className="upload-btn">
+                      <FaUpload />
+                      <span>{uploading ? "上传中..." : "添加图片"}</span>
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/gif,image/webp"
+                        multiple
+                        onChange={handleImageUpload}
+                        disabled={uploading || submitting}
+                      />
+                    </label>
+                  )}
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="submit-btn"
+                disabled={submitting}
+              >
+                {submitting ? "提交中..." : "提交投稿"}
+              </button>
+            </form>
+          )}
+        </section>
+
         <div className="submit-cta">
-          <p className="cta-text">你的真实评价将帮助更多学员做出正确选择！</p>
+          <p className="cta-text">也可以通过以下方式投稿：</p>
           <div className="cta-buttons">
-            <a href={`tencent://message/?uin=${contact.qq}`} className="cta-button primary">
+            <a
+              href={`tencent://message/?uin=${contact.qq}`}
+              className="cta-button primary"
+            >
               <FaQq /> 通过QQ投稿
             </a>
-            <a href={`mailto:${contact.email}`} className="cta-button secondary">
+            <a
+              href={`mailto:${contact.email}`}
+              className="cta-button secondary"
+            >
               <FaEnvelope /> 通过邮箱投稿
             </a>
           </div>
@@ -135,4 +370,3 @@ function Submit() {
 }
 
 export default Submit;
-

@@ -36,10 +36,8 @@ public class ReviewController {
      */
     @GetMapping("/my")
     @Operation(summary = "我的投稿", description = "查看当前用户的所有投稿（需要登录）")
-    public Result<List<Review>> getMyReviews() {
-        // TODO: 从 SecurityContext 获取当前用户名，查询其投稿
-        // String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return Result.success(List.of());
+    public Result<List<Review>> getMyReviews(@RequestParam String author) {
+        return Result.success(reviewService.getReviewsByAuthor(author));
     }
 
     /**

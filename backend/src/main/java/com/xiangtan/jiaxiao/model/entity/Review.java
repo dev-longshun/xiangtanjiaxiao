@@ -54,6 +54,11 @@ public class Review {
     private String status;
     
     /**
+     * 驳回原因（仅当 status=REJECTED 时有值）
+     */
+    private String rejectReason;
+    
+    /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)

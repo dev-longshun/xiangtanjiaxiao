@@ -1,10 +1,21 @@
-import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaSchool, FaChartBar, FaPaperPlane, FaInfoCircle } from 'react-icons/fa';
-import './Header.css';
+import { Link, useLocation } from "react-router-dom";
+import {
+  FaHome,
+  FaSchool,
+  FaChartBar,
+  FaPaperPlane,
+  FaInfoCircle,
+  FaUser,
+  FaSignInAlt,
+  FaUserShield,
+} from "react-icons/fa";
+import { useAuth } from "../contexts/AuthContext";
+import "./Header.css";
 
 function Header() {
   const location = useLocation();
-  
+  const { user, isAdmin, isAuthenticated } = useAuth();
+
   const isActive = (path) => {
     return location.pathname === path;
   };
@@ -16,21 +27,69 @@ function Header() {
           <h1>湘潭驾校评价网</h1>
         </Link>
         <nav className="nav">
-          <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>
+          <Link to="/" className={`nav-link ${isActive("/") ? "active" : ""}`}>
             <FaHome /> 首页
           </Link>
-          <Link to="/all-schools" className={`nav-link ${isActive('/all-schools') ? 'active' : ''}`}>
+          <Link
+            to="/all-schools"
+            className={`nav-link ${isActive("/all-schools") ? "active" : ""}`}
+          >
             <FaSchool /> 全部驾校
           </Link>
-          <Link to="/data-comparison" className={`nav-link ${isActive('/data-comparison') ? 'active' : ''}`}>
+          <Link
+            to="/data-comparison"
+            className={`nav-link ${
+              isActive("/data-comparison") ? "active" : ""
+            }`}
+          >
             <FaChartBar /> 数据统计
           </Link>
-          <Link to="/submit" className={`nav-link ${isActive('/submit') ? 'active' : ''}`}>
+          <Link
+            to="/submit"
+            className={`nav-link ${isActive("/submit") ? "active" : ""}`}
+          >
             <FaPaperPlane /> 投稿
           </Link>
-          <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>
+          <Link
+            to="/about"
+            className={`nav-link ${isActive("/about") ? "active" : ""}`}
+          >
             <FaInfoCircle /> 关于
           </Link>
+
+          <div className="nav-divider"></div>
+
+          {isAuthenticated() ? (
+            <>
+              {isAdmin() && (
+                <Link
+                  to="/admin"
+                  className={`nav-link admin-link ${
+                    location.pathname.startsWith("/admin") ? "active" : ""
+                  }`}
+                >
+                  <FaUserShield /> 管理后台
+                </Link>
+              )}
+              <Link
+                to="/user-center"
+                className={`nav-link user-link ${
+                  isActive("/user-center") ? "active" : ""
+                }`}
+              >
+                <FaUser /> {user?.nickname || "个人中心"}
+              </Link>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className={`nav-link login-link ${
+                isActive("/login") ? "active" : ""
+              }`}
+            >
+              <FaSignInAlt /> 登录
+            </Link>
+          )}
         </nav>
       </div>
     </header>
@@ -38,4 +97,3 @@ function Header() {
 }
 
 export default Header;
-

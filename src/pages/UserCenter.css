@@ -1,0 +1,280 @@
+.user-center-page {
+  padding: 2rem 0;
+  min-height: calc(100vh - 200px);
+  background: #f5f7fa;
+}
+
+.user-center-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.user-details h1 {
+  font-size: 1.25rem;
+  color: #333;
+  margin: 0 0 0.25rem 0;
+}
+
+.user-details p {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.logout-btn {
+  background: #f5f5f5;
+  color: #666;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+.user-center-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+
+.tab {
+  flex: 1;
+  padding: 1rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.tab:hover {
+  background: #f9f9f9;
+}
+
+.tab.active {
+  color: #4a90d9;
+  border-bottom: 2px solid #4a90d9;
+  margin-bottom: -1px;
+}
+
+.tab-content {
+  padding: 1.5rem;
+}
+
+.loading,
+.error,
+.empty {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.review-item {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.school-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.status-icon {
+  font-size: 0.9rem;
+}
+
+.status-icon.pending {
+  color: #856404;
+}
+.status-icon.approved {
+  color: #155724;
+}
+.status-icon.rejected {
+  color: #721c24;
+}
+
+.review-rating {
+  margin-bottom: 0.5rem;
+}
+
+.star {
+  color: #ddd;
+  font-size: 0.9rem;
+}
+
+.star.filled {
+  color: #f5a623;
+}
+
+.review-content {
+  color: #555;
+  line-height: 1.6;
+  margin: 0.5rem 0;
+}
+
+.review-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.review-date {
+  color: #999;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.reject-reason {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #fff5f5;
+  border-left: 3px solid #e74c3c;
+  color: #721c24;
+  font-size: 0.9rem;
+}
+
+.password-section {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.password-section .form-group {
+  margin-bottom: 1rem;
+}
+
+.password-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.password-section input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.password-section input:focus {
+  outline: none;
+  border-color: #4a90d9;
+}
+
+.message {
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.message.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.875rem;
+  background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 144, 217, 0.3);
+}

@@ -1,12 +1,12 @@
-import { FaStar, FaUser, FaCalendarAlt } from 'react-icons/fa';
-import './ReviewCard.css';
+import { FaStar, FaUser, FaCalendarAlt } from "react-icons/fa";
+import "./ReviewCard.css";
 
 function ReviewCard({ review }) {
   const renderStars = (rating) => {
     return [...Array(5)].map((_, index) => (
       <FaStar
         key={index}
-        className={index < rating ? 'star-filled' : 'star-empty'}
+        className={index < rating ? "star-filled" : "star-empty"}
       />
     ));
   };
@@ -28,19 +28,26 @@ function ReviewCard({ review }) {
       <div className="review-footer">
         <div className="review-date">
           <FaCalendarAlt className="date-icon" />
-          {review.date}
+          {review.date ||
+            (review.reviewDate
+              ? new Date(review.reviewDate).toLocaleDateString()
+              : "")}
         </div>
-        <div className="review-tags">
-          {review.tags.map((tag, index) => (
-            <span key={index} className={`review-tag ${tag === '踩坑经验' ? 'warning' : ''}`}>
-              {tag}
-            </span>
-          ))}
-        </div>
+        {review.tags && review.tags.length > 0 && (
+          <div className="review-tags">
+            {review.tags.map((tag, index) => (
+              <span
+                key={index}
+                className={`review-tag ${tag === "踩坑经验" ? "warning" : ""}`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
 export default ReviewCard;
-

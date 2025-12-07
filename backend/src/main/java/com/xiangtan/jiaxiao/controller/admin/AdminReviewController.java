@@ -37,9 +37,32 @@ public class AdminReviewController {
     @PostMapping("/{id}/review")
     @Operation(summary = "审核评价", description = "管理员审核评价（通过或拒绝）")
     public Result<Void> reviewApproval(@PathVariable Long id, @RequestBody ApprovalRequest request) {
-        reviewService.reviewApproval(id, request.isApproved());
-        String message = request.isApproved() ? "评价已通过" : "评价已拒绝";
-        return Result.success(message);
+        if (request.isApproved()) {
+            reviewService.reviewApproval(id, true);
+            return Result.success("评价已通过");
+        } else {
+            reviewService.rejectReview(id, request.getRejectReason());
+            return Result.success("评价已驳回");
+        }
+    }
+    
+    /**
+     * 获取某驾校的所有评价（含各状态）
+     */
+    @GetMapping("/school/{schoolId}")
+    @Operation(summary = "获取驾校所有评价", description = "获取某驾校的所有评价（含待审核、已通过、已驳回）")
+    public Result<List<Review>> getSchoolAllReviews(@PathVariable String schoolId) {
+        return Result.success(reviewService.getAllReviewsBySchoolId(schoolId));
+    }
+    
+    /**
+     * 删除评价（逻辑删除）
+     */
+    @DeleteMapping("/{id}")
+    @Operation(summary = "删除评价", description = "管理员删除评价（逻辑删除）")
+    public Result<Void> deleteReview(@PathVariable Long id) {
+        reviewService.deleteReview(id);
+        return Result.success("评价已删除");
     }
 
     /**
@@ -48,5 +71,6 @@ public class AdminReviewController {
     @Data
     static class ApprovalRequest {
         private boolean approved;
+        private String rejectReason;
     }
 }

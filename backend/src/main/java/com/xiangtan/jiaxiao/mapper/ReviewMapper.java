@@ -15,4 +15,9 @@ public interface ReviewMapper extends BaseMapper<Review> {
      * 更新评价状态（PENDING -> APPROVED/REJECTED）
      */
     int updateStatus(@Param("id") Long id, @Param("status") String status);
+    
+    /**
+     * 更新评价状态并设置驳回原因
+     */
+    int updateStatusWithReason(@Param("id") Long id, @Param("status") String status, @Param("rejectReason") String rejectReason);
 }
