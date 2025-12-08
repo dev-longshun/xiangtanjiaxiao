@@ -7,6 +7,8 @@ import DataComparison from './pages/DataComparison';
 import SchoolDetail from './pages/SchoolDetail';
 import Submit from './pages/Submit';
 import About from './pages/About';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import './App.css';
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
             <Route path="/school/:id" element={<SchoolDetail />} />
             <Route path="/submit" element={<Submit />} />
             <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </main>
         <Footer />

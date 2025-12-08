@@ -102,6 +102,27 @@
   border-radius: 2px;
 }
 
+/* 用户信息样式 */
+.user-info {
+  color: #a78bfa !important;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* 退出按钮样式 */
+.logout-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+}
+
 @media (max-width: 1024px) {
   .nav {
     gap: 1rem;

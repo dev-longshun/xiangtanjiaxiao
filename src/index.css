@@ -97,9 +97,9 @@ input, select, textarea {
 }
 
 input[type="text"],
-input[type="search"] {
+input[type="search"],
+input[type="password"] {
   caret-color: #a78bfa !important;
-  -webkit-text-fill-color: #ffffff;
 }
 
 input:focus {

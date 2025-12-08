@@ -1,5 +1,23 @@
-# Logs
-logs
+# ==================== Node.js / 前端 ====================
+
+# 依赖目录
+node_modules/
+jspm_packages/
+
+# 构建产物
+dist/
+dist-ssr/
+build/
+out/
+
+# 本地环境变量文件
+.env
+.env.local
+.env.*.local
+*.local
+
+# 日志文件
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,19 +25,210 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# 缓存目录
+.cache/
+.parcel-cache/
+.nuxt/
+.next/
+.vuepress/dist/
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
 
-# Editor directories and files
-.vscode/*
+# 测试覆盖率报告
+coverage/
+*.lcov
+.nyc_output/
+
+# ==================== Java / Maven / Spring Boot ====================
+
+# Maven 构建产物
+backend/target/
+backend/*/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# 编译产物
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# Spring Boot 特定文件
+backend/spring-boot-*.log
+backend/application-*.log
+
+# MyBatis Generator
+backend/generatorConfig.xml
+
+# ==================== IDE / 编辑器 ====================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+.recommenders
+
+# NetBeans
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# Visual Studio Code
+.vscode/
 !.vscode/extensions.json
-.idea
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.code-workspace
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ==================== 操作系统 ====================
+
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+
+# ==================== 敏感信息与配置 ====================
+
+# 本地环境配置（不应提交）
+.env.local
+.env.*.local
+application-local.yml
+application-local.properties
+
+# 数据库文件
+*.sqlite
+*.db
+*.sql.bak
+
+# 密钥和证书
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore
+*.cert
+*.crt
+secrets/
+
+# ==================== 项目特定 ====================
+
+# 上传文件目录（用户上传的图片等）
+backend/uploads/
+uploads/
+
+# 临时文件和生成文件
+gen/
+temp/
+tmp/
+*.tmp
+
+# 协议文件目录（已在原 .gitignore 中）
+00_PROTOCOL/
+
+# 数据文件（根据项目需求决定）
+# backend/src/main/resources/static/data.json  # 如果不想提交数据
+
+# 文档草稿（可选，根据团队约定）
+# docs/drafts/
+# docs/*.draft.md
+
+# ==================== 其他 ====================
+
+# 压缩文件
+*.7z
+*.dmg
+*.gz
+*.iso
+*.rar
+*.tar
+*.zip
+
+# 备份文件
+*.backup
+*.old
+*.orig
+
+# 其他杂项
 *.suo
+*.user
+*.userosscache
+*.sln.docstates
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-00_PROTOCOL/
