@@ -232,3 +232,4 @@ tmp/
 *.njsproj
 *.sln
 *.sw?
+/backend/target/
