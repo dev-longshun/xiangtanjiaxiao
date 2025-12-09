@@ -1,38 +1,59 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import SchoolCard from '../components/SchoolCard';
-import data from '../data/data.json';
-import './Home.css';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import SchoolCard from "../components/SchoolCard";
+import { schoolAPI } from "../services/api";
+import "./Home.css";
 
 function Home() {
   const [schools, setSchools] = useState([]);
-  const [sortBy, setSortBy] = useState('rating'); // rating or reviewCount
+  const [allSchools, setAllSchools] = useState([]);
+  const [sortBy, setSortBy] = useState("rating");
   const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [totalReviews, setTotalReviews] = useState(0);
 
   useEffect(() => {
-    // 检测是否为移动端
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
-    // 加载并排序驾校数据
-    let sortedSchools = [...data.schools];
-    
-    if (sortBy === 'rating') {
+    loadSchools();
+  }, []);
+
+  useEffect(() => {
+    let sortedSchools = [...allSchools];
+    if (sortBy === "rating") {
       sortedSchools.sort((a, b) => b.rating - a.rating);
-    } else if (sortBy === 'reviewCount') {
+    } else if (sortBy === "reviewCount") {
       sortedSchools.sort((a, b) => b.reviewCount - a.reviewCount);
     }
-    
     setSchools(sortedSchools);
-  }, [sortBy]);
+  }, [sortBy, allSchools]);
+
+  const loadSchools = async () => {
+    try {
+      setLoading(true);
+      const response = await schoolAPI.getAll();
+      if (response.code === 200) {
+        const schoolsData = response.data || [];
+        setAllSchools(schoolsData);
+        const total = schoolsData.reduce(
+          (sum, s) => sum + (s.reviewCount || 0),
+          0
+        );
+        setTotalReviews(total);
+      }
+    } catch (error) {
+      console.error("加载驾校数据失败:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="home">
@@ -60,11 +81,11 @@ function Home() {
             </div>
             <div className="hero-stats">
               <div className="stat-item">
-                <div className="stat-number">{data.schools.length}+</div>
+                <div className="stat-number">{allSchools.length}+</div>
                 <div className="stat-label">覆盖驾校</div>
               </div>
               <div className="stat-item">
-                <div className="stat-number">{data.reviews.length}+</div>
+                <div className="stat-number">{totalReviews}+</div>
                 <div className="stat-label">真实评价</div>
               </div>
               <div className="stat-item">
@@ -108,8 +129,8 @@ function Home() {
             <h2>热门驾校推荐</h2>
             <div className="sort-controls">
               <label>排序: </label>
-              <select 
-                value={sortBy} 
+              <select
+                value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="sort-select"
               >
@@ -120,12 +141,16 @@ function Home() {
           </div>
 
           <div className="schools-grid">
-            {schools.slice(0, isMobile ? 3 : 6).map(school => (
-              <SchoolCard key={school.id} school={school} />
-            ))}
+            {loading ? (
+              <div className="loading-state">加载中...</div>
+            ) : (
+              schools
+                .slice(0, isMobile ? 3 : 6)
+                .map((school) => <SchoolCard key={school.id} school={school} />)
+            )}
           </div>
 
-          {schools.length === 0 && (
+          {!loading && schools.length === 0 && (
             <div className="empty-state">
               <p>暂无驾校信息</p>
             </div>
@@ -164,4 +189,3 @@ function Home() {
 }
 
 export default Home;
-

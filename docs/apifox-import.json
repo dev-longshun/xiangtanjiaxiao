@@ -1,0 +1,1098 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "驾校点评系统 API",
+    "description": "驾校点评系统前后端接口文档",
+    "version": "1.0.0",
+    "contact": {
+      "name": "后端开发团队"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7070",
+      "description": "开发环境"
+    },
+    {
+      "url": "https://your-domain.com",
+      "description": "生产环境"
+    }
+  ],
+  "tags": [
+    {
+      "name": "认证接口",
+      "description": "用户注册与登录"
+    },
+    {
+      "name": "驾校接口",
+      "description": "驾校列表、详情、搜索等公开接口"
+    },
+    {
+      "name": "评价接口",
+      "description": "评价投稿与查询接口"
+    },
+    {
+      "name": "文件上传",
+      "description": "图片上传接口"
+    },
+    {
+      "name": "管理-驾校",
+      "description": "驾校的增删改接口（管理员）"
+    },
+    {
+      "name": "管理-评价",
+      "description": "评价审核接口（管理员）"
+    }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["认证接口"],
+        "summary": "用户注册",
+        "description": "通过昵称和密码注册，系统自动生成用户名（数字ID）",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["nickname", "password"],
+                "properties": {
+                  "nickname": {
+                    "type": "string",
+                    "description": "昵称（用于评论展示，长度不超过50）"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "密码（长度不少于6位）"
+                  }
+                }
+              },
+              "example": {
+                "nickname": "张三",
+                "password": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "username": "10001",
+                    "nickname": "张三",
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  },
+                  "message": "注册成功"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 400,
+                  "data": null,
+                  "message": "昵称不能为空"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["认证接口"],
+        "summary": "用户登录",
+        "description": "通过用户名（系统生成的数字ID）和密码登录",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "用户名（注册时系统生成的数字ID）"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "密码"
+                  }
+                }
+              },
+              "example": {
+                "username": "10001",
+                "password": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  },
+                  "message": "登录成功"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "example": {
+                  "code": 401,
+                  "data": null,
+                  "message": "用户名或密码错误"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/admin/login": {
+      "post": {
+        "tags": ["认证接口"],
+        "summary": "管理员登录",
+        "description": "用户名密码登录，返回 JWT Token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "用户名"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "密码"
+                  }
+                }
+              },
+              "example": {
+                "username": "admin",
+                "password": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultAdminLoginResponse"
+                },
+                "example": {
+                  "code": 200,
+                  "data": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  },
+                  "message": "登录成功"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultError"
+                },
+                "example": {
+                  "code": 401,
+                  "data": null,
+                  "message": "用户名或密码错误"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/schools": {
+      "get": {
+        "tags": ["驾校接口"],
+        "summary": "获取所有驾校",
+        "description": "返回所有驾校列表（按拼音排序）",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultSchoolList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/schools/{id}": {
+      "get": {
+        "tags": ["驾校接口"],
+        "summary": "获取驾校详情",
+        "description": "根据驾校ID获取详细信息",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "驾校ID（如 changsha-anjia）",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultSchool"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "未找到",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultError"
+                },
+                "example": {
+                  "code": 404,
+                  "data": null,
+                  "message": "驾校不存在"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/schools/search": {
+      "get": {
+        "tags": ["驾校接口"],
+        "summary": "搜索驾校",
+        "description": "按名称模糊搜索驾校",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "description": "搜索关键字（支持中文名称或拼音）",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultSchoolList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reviews": {
+      "post": {
+        "tags": ["评价接口"],
+        "summary": "提交评价",
+        "description": "用户投稿新评价（需要登录，默认待审核）",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewSubmit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                },
+                "example": {
+                  "code": 200,
+                  "data": null,
+                  "message": "评价已提交，等待管理员审核"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultError"
+                },
+                "example": {
+                  "code": 401,
+                  "data": null,
+                  "message": "未授权，请先登录"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reviews/school/{schoolId}": {
+      "get": {
+        "tags": ["评价接口"],
+        "summary": "获取驾校评价",
+        "description": "获取某驾校的已审核通过评价列表",
+        "parameters": [
+          {
+            "name": "schoolId",
+            "in": "path",
+            "required": true,
+            "description": "驾校ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultReviewList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reviews/my": {
+      "get": {
+        "tags": ["评价接口"],
+        "summary": "我的投稿",
+        "description": "查看当前用户的所有投稿（需要登录）",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultReviewList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/upload/image": {
+      "post": {
+        "tags": ["文件上传"],
+        "summary": "上传图片",
+        "description": "上传评论事实证明图片，单张最大 5MB，支持 jpg/jpeg/png/gif/webp/bmp 格式",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "图片文件（最大5MB，支持 jpg/jpeg/png/gif/webp/bmp）"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                },
+                "example": {
+                  "code": 200,
+                  "data": "/uploads/reviews/202511/a1b2c3d4e5f6.jpg",
+                  "message": "操作成功"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultError"
+                },
+                "examples": {
+                  "file_too_large": {
+                    "summary": "文件过大",
+                    "value": {
+                      "code": 400,
+                      "data": null,
+                      "message": "文件大小超过限制（最大 5MB）"
+                    }
+                  },
+                  "invalid_format": {
+                    "summary": "格式不支持",
+                    "value": {
+                      "code": 400,
+                      "data": null,
+                      "message": "不支持的文件格式，仅支持: jpg, jpeg, png, gif, webp, bmp"
+                    }
+                  },
+                  "file_empty": {
+                    "summary": "文件为空",
+                    "value": {
+                      "code": 400,
+                      "data": null,
+                      "message": "文件不能为空"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultError"
+                },
+                "example": {
+                  "code": 401,
+                  "data": null,
+                  "message": "未授权，请先登录"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/schools": {
+      "post": {
+        "tags": ["管理-驾校"],
+        "summary": "创建驾校",
+        "description": "管理员添加新驾校",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/School"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                },
+                "example": {
+                  "code": 200,
+                  "data": null,
+                  "message": "驾校创建成功"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "无权限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultError"
+                },
+                "example": {
+                  "code": 403,
+                  "data": null,
+                  "message": "无权限访问"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/schools/{id}": {
+      "put": {
+        "tags": ["管理-驾校"],
+        "summary": "更新驾校",
+        "description": "管理员更新驾校信息",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "驾校ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/School"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                },
+                "example": {
+                  "code": 200,
+                  "data": null,
+                  "message": "驾校更新成功"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["管理-驾校"],
+        "summary": "删除驾校",
+        "description": "管理员逻辑删除驾校",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "驾校ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                },
+                "example": {
+                  "code": 200,
+                  "data": null,
+                  "message": "驾校删除成功"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/reviews": {
+      "get": {
+        "tags": ["管理-评价"],
+        "summary": "待审核评价列表",
+        "description": "获取所有待审核评价",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultReviewList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/reviews/{id}/review": {
+      "post": {
+        "tags": ["管理-评价"],
+        "summary": "审核评价",
+        "description": "管理员审核评价（通过或拒绝）",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "评价ID",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["approved"],
+                "properties": {
+                  "approved": {
+                    "type": "boolean",
+                    "description": "true=通过, false=拒绝"
+                  }
+                }
+              },
+              "example": {
+                "approved": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVoid"
+                },
+                "example": {
+                  "code": 200,
+                  "data": null,
+                  "message": "评价已通过"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT Token 认证，格式: Bearer {token}"
+      }
+    },
+    "schemas": {
+      "ResultWeChatLoginResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "响应码（200=成功）"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "JWT Token"
+              },
+              "userInfo": {
+                "type": "object",
+                "properties": {
+                  "nickname": {
+                    "type": "string",
+                    "description": "微信昵称"
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "description": "微信头像"
+                  }
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          }
+        }
+      },
+      "ResultAdminLoginResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "响应码（200=成功）"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "JWT Token"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          }
+        }
+      },
+      "ResultSchoolList": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "响应码（200=成功）"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/School"
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          }
+        }
+      },
+      "ResultSchool": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "响应码（200=成功）"
+          },
+          "data": {
+            "$ref": "#/components/schemas/School"
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          }
+        }
+      },
+      "ResultReviewList": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "响应码（200=成功）"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Review"
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          }
+        }
+      },
+      "ResultVoid": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "响应码（200=成功）"
+          },
+          "data": {
+            "type": "object",
+            "nullable": true,
+            "description": "无数据（null）"
+          },
+          "message": {
+            "type": "string",
+            "description": "响应消息"
+          }
+        }
+      },
+      "ResultError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "错误码（401/403/404/500）"
+          },
+          "data": {
+            "type": "object",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "错误消息"
+          }
+        }
+      },
+      "School": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "驾校ID（如 changsha-anjia）"
+          },
+          "name": {
+            "type": "string",
+            "description": "驾校名称"
+          },
+          "namePinyin": {
+            "type": "string",
+            "description": "名称拼音"
+          },
+          "rating": {
+            "type": "number",
+            "format": "double",
+            "description": "综合评分（0.0-5.0）"
+          },
+          "reviewCount": {
+            "type": "integer",
+            "description": "评价总数"
+          },
+          "passRate": {
+            "type": "number",
+            "format": "double",
+            "description": "通过率（百分比）"
+          },
+          "tags": {
+            "type": "string",
+            "description": "标签（JSON 数组字符串）"
+          },
+          "courses": {
+            "type": "string",
+            "description": "开设课程（JSON 数组字符串）"
+          },
+          "address": {
+            "type": "string",
+            "description": "地址"
+          },
+          "phone": {
+            "type": "string",
+            "description": "联系电话"
+          },
+          "businessHours": {
+            "type": "string",
+            "description": "营业时间"
+          },
+          "priceRange": {
+            "type": "string",
+            "description": "学车费用范围"
+          },
+          "examData": {
+            "type": "string",
+            "description": "考试数据（JSON 对象字符串）"
+          },
+          "description": {
+            "type": "string",
+            "description": "驾校简介"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          },
+          "isActive": {
+            "type": "integer",
+            "description": "是否激活（1=激活, 0=已删除）"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "评价ID"
+          },
+          "schoolId": {
+            "type": "string",
+            "description": "驾校ID"
+          },
+          "author": {
+            "type": "string",
+            "description": "评价者昵称"
+          },
+          "content": {
+            "type": "string",
+            "description": "评价内容"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "评分（1-5）"
+          },
+          "evidenceImages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "事实证明图片URL数组（最多9张）"
+          },
+          "reviewDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "评价时间"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["PENDING", "APPROVED", "REJECTED"],
+            "description": "状态（PENDING=待审核, APPROVED=已通过, REJECTED=已拒绝）"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          },
+          "isActive": {
+            "type": "integer",
+            "description": "是否激活（1=激活, 0=已删除）"
+          }
+        }
+      },
+      "ReviewSubmit": {
+        "type": "object",
+        "required": ["schoolId", "author", "content", "rating"],
+        "properties": {
+          "schoolId": {
+            "type": "string",
+            "description": "驾校ID"
+          },
+          "author": {
+            "type": "string",
+            "description": "评价者昵称"
+          },
+          "content": {
+            "type": "string",
+            "description": "评价内容"
+          },
+          "rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "评分（1-5）"
+          },
+          "evidenceImages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "事实证明图片URL数组（最多9张，需先调用上传接口获取URL）",
+            "maxItems": 9
+          }
+        },
+        "example": {
+          "schoolId": "changsha-anjia",
+          "author": "张三",
+          "content": "教练很负责，考试通过率高！",
+          "rating": 5,
+          "evidenceImages": [
+            "/uploads/reviews/202511/abc123def456.jpg",
+            "/uploads/reviews/202511/xyz789uvw012.jpg"
+          ]
+        }
+      }
+    }
+  }
+}

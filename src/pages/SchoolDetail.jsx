@@ -1,38 +1,63 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { FaStar, FaMapMarkerAlt, FaPhone, FaArrowLeft } from 'react-icons/fa';
-import ReviewCard from '../components/ReviewCard';
-import data from '../data/data.json';
-import './SchoolDetail.css';
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { FaStar, FaMapMarkerAlt, FaPhone, FaArrowLeft } from "react-icons/fa";
+import ReviewCard from "../components/ReviewCard";
+import { schoolAPI, reviewAPI } from "../services/api";
+import "./SchoolDetail.css";
 
 function SchoolDetail() {
   const { id } = useParams();
   const [school, setSchool] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [sortBy, setSortBy] = useState('date'); // date or rating
+  const [sortBy, setSortBy] = useState("date");
+  const [loading, setLoading] = useState(true);
 
-  // 页面加载时滚动到顶部
   useEffect(() => {
     window.scrollTo(0, 0);
+    loadSchoolData();
   }, [id]);
 
-  useEffect(() => {
-    // 查找驾校信息
-    const foundSchool = data.schools.find(s => s.id === id);
-    setSchool(foundSchool);
+  const loadSchoolData = async () => {
+    try {
+      setLoading(true);
+      const [schoolRes, reviewsRes] = await Promise.all([
+        schoolAPI.getById(id),
+        reviewAPI.getBySchoolId(id),
+      ]);
 
-    // 获取该驾校的所有评价
-    let schoolReviews = data.reviews.filter(r => r.schoolId === id);
-    
-    // 排序
-    if (sortBy === 'date') {
-      schoolReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
-    } else if (sortBy === 'rating') {
-      schoolReviews.sort((a, b) => b.rating - a.rating);
+      if (schoolRes.code === 200) {
+        setSchool(schoolRes.data);
+      }
+      if (reviewsRes.code === 200) {
+        setReviews(reviewsRes.data || []);
+      }
+    } catch (error) {
+      console.error("加载数据失败:", error);
+    } finally {
+      setLoading(false);
     }
-    
-    setReviews(schoolReviews);
-  }, [id, sortBy]);
+  };
+
+  useEffect(() => {
+    // 排序评价
+    let sortedReviews = [...reviews];
+    if (sortBy === "date") {
+      sortedReviews.sort(
+        (a, b) => new Date(b.reviewDate) - new Date(a.reviewDate)
+      );
+    } else if (sortBy === "rating") {
+      sortedReviews.sort((a, b) => b.rating - a.rating);
+    }
+    setReviews(sortedReviews);
+  }, [sortBy]);
+
+  if (loading) {
+    return (
+      <div className="container">
+        <div className="loading-state">加载中...</div>
+      </div>
+    );
+  }
 
   if (!school) {
     return (
@@ -59,8 +84,12 @@ function SchoolDetail() {
             <h1>{school.name}</h1>
             <div className="school-rating-large">
               <FaStar className="star-icon-large" />
-              <span className="rating-score-large">{school.rating.toFixed(1)}</span>
-              <span className="rating-count">({school.reviewCount} 条评价)</span>
+              <span className="rating-score-large">
+                {school.rating.toFixed(1)}
+              </span>
+              <span className="rating-count">
+                ({school.reviewCount} 条评价)
+              </span>
             </div>
           </div>
 
@@ -85,7 +114,9 @@ function SchoolDetail() {
               <strong>培训课程:</strong>
               <div className="courses-list">
                 {school.courses.map((course, index) => (
-                  <span key={index} className="course-badge">{course}</span>
+                  <span key={index} className="course-badge">
+                    {course}
+                  </span>
                 ))}
               </div>
             </div>
@@ -93,7 +124,9 @@ function SchoolDetail() {
               <strong>驾校特色:</strong>
               <div className="tags-list">
                 {school.tags.map((tag, index) => (
-                  <span key={index} className="feature-tag">{tag}</span>
+                  <span key={index} className="feature-tag">
+                    {tag}
+                  </span>
                 ))}
               </div>
             </div>
@@ -105,8 +138,8 @@ function SchoolDetail() {
             <h2>学员评价</h2>
             <div className="sort-controls">
               <label>排序: </label>
-              <select 
-                value={sortBy} 
+              <select
+                value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="sort-select"
               >
@@ -118,13 +151,15 @@ function SchoolDetail() {
 
           <div className="reviews-list">
             {reviews.length > 0 ? (
-              reviews.map(review => (
+              reviews.map((review) => (
                 <ReviewCard key={review.id} review={review} />
               ))
             ) : (
               <div className="no-reviews">
                 <p>暂无评价，欢迎成为第一个评价的学员！</p>
-                <Link to="/submit" className="submit-link">去投稿</Link>
+                <Link to="/submit" className="submit-link">
+                  去投稿
+                </Link>
               </div>
             )}
           </div>
@@ -135,4 +170,3 @@ function SchoolDetail() {
 }
 
 export default SchoolDetail;
-

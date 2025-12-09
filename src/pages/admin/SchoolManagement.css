@@ -1,0 +1,280 @@
+.school-management {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.page-header h1 {
+  font-size: 1.75rem;
+  color: #333;
+  margin: 0 0 0.25rem 0;
+}
+.page-header p {
+  color: #666;
+  margin: 0;
+}
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: #4a90d9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-add:hover {
+  background: #357abd;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.search-bar input {
+  flex: 1;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+}
+.search-bar svg {
+  color: #999;
+}
+.loading,
+.empty {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  background: white;
+  border-radius: 8px;
+}
+.schools-table {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.schools-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.schools-table th,
+.schools-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+.schools-table th {
+  background: #f9f9f9;
+  font-weight: 600;
+  color: #555;
+}
+.name-cell {
+  font-weight: 500;
+  color: #333;
+}
+.address-cell {
+  color: #666;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.star {
+  color: #f5a623;
+}
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+}
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: #f0f0f0;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-icon:hover {
+  background: #e0e0e0;
+}
+.btn-icon.danger:hover {
+  background: #fee;
+  color: #e74c3c;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 1rem;
+}
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-content.large {
+  max-width: 800px;
+}
+.modal-content h2 {
+  margin: 0 0 1.5rem 0;
+  color: #333;
+}
+.modal-content h3 {
+  margin: 1.5rem 0 1rem 0;
+  color: #555;
+  font-size: 1.1rem;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 500;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4a90d9;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.btn-primary {
+  flex: 1;
+  padding: 0.75rem;
+  background: #4a90d9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background: #357abd;
+}
+.btn-cancel {
+  flex: 1;
+  padding: 0.75rem;
+  background: #f0f0f0;
+  color: #666;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.school-detail-info {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.school-detail-info p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+.reviews-list-mini {
+  max-height: 300px;
+  overflow-y: auto;
+}
+.review-item-mini {
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+}
+.review-item-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.review-item-mini p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+.status {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+.status.approved {
+  background: #d4edda;
+  color: #155724;
+}
+.status.rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+.btn-delete-mini {
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background: none;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.empty-text {
+  color: #999;
+  text-align: center;
+  padding: 1rem;
+}
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .schools-table {
+    overflow-x: auto;
+  }
+}
