@@ -37,7 +37,12 @@ public class AdminReviewController {
     @PostMapping("/{id}/review")
     @Operation(summary = "审核评价", description = "管理员审核评价（通过或拒绝）")
     public Result<Void> reviewApproval(@PathVariable Long id, @RequestBody ApprovalRequest request) {
-        reviewService.reviewApproval(id, request.isApproved());
+        // 验证：驳回时必须填写驳回原因
+        if (!request.isApproved() && (request.getRejectReason() == null || request.getRejectReason().trim().isEmpty())) {
+            return Result.error(400, "驳回时必须填写驳回原因");
+        }
+        
+        reviewService.reviewApproval(id, request.isApproved(), request.getRejectReason());
         String message = request.isApproved() ? "评价已通过" : "评价已拒绝";
         return Result.success(message);
     }
@@ -48,5 +53,6 @@ public class AdminReviewController {
     @Data
     static class ApprovalRequest {
         private boolean approved;
+        private String rejectReason; // 驳回原因（驳回时必填）
     }
 }

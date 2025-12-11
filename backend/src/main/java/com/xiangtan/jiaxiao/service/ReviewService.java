@@ -19,5 +19,5 @@ public interface ReviewService {
     void submitReview(Review review);
 
     /** 审核评价（管理员） */
-    void reviewApproval(Long id, boolean approved);
+    void reviewApproval(Long id, boolean approved, String rejectReason);
 }

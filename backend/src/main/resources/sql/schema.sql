@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS reviews (
     evidence_images TEXT COMMENT '事实证明图片（JSON 数组，存储图片 URL 列表，最多9张）',
     review_date DATETIME NOT NULL COMMENT '评价时间',
     status ENUM('PENDING', 'APPROVED', 'REJECTED') NOT NULL DEFAULT 'PENDING' COMMENT '审核状态',
+    reject_reason VARCHAR(500) COMMENT '驳回原因（status=REJECTED 时填写）',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     is_active TINYINT NOT NULL DEFAULT 1 COMMENT '是否激活（逻辑删除标志）',

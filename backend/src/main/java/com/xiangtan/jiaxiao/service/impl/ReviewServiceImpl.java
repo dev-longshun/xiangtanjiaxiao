@@ -48,8 +48,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     /** 审核评价（管理员） */
     @Override
-    public void reviewApproval(Long id, boolean approved) {
+    public void reviewApproval(Long id, boolean approved, String rejectReason) {
         String status = approved ? "APPROVED" : "REJECTED";
-        reviewMapper.updateStatus(id, status);
+        reviewMapper.updateStatus(id, status, rejectReason);
     }
 }

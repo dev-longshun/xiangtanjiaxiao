@@ -6,7 +6,9 @@
     <!-- 更新评价状态 -->
     <update id="updateStatus">
         UPDATE reviews
-        SET status = #{status}, updated_at = NOW()
+        SET status = #{status}, 
+            reject_reason = #{rejectReason},
+            updated_at = NOW()
         WHERE id = #{id}
     </update>
     
