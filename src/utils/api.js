@@ -207,8 +207,39 @@ export const reviewAPI = {
   },
 };
 
+/**
+ * 上传 API
+ */
+export const uploadAPI = {
+  /**
+   * 上传单张图片
+   * @param {File} file - 图片文件对象
+   * @returns {Promise<Result<string>>} 返回图片URL
+   */
+  async uploadImage(file) {
+    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(`${API_BASE}/api/upload/image`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    return await response.json();
+  },
+};
+
 export default {
   authAPI,
   schoolAPI,
   reviewAPI,
+  uploadAPI,
 };

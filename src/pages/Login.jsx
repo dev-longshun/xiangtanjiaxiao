@@ -112,6 +112,7 @@ function Login() {
         // Token 会被永久保存在浏览器本地，直到手动删除或退出登录
         localStorage.setItem('token', result.data.token);  // 保存 JWT Token
         localStorage.setItem('username', formData.username);  // 保存用户名（用于显示）
+        localStorage.setItem('nickname', formData.username);  // 保存昵称（临时使用username）
         
         // 控制台输出（方便调试）
         alert('登录成功！');
