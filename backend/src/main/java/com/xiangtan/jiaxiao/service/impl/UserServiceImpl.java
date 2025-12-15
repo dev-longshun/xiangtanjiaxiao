@@ -107,6 +107,34 @@ public class UserServiceImpl implements UserService {
         return jwtUtil.generateToken(username, user.getId(), user.getRoles());
     }
 
+    /** 用户登录（返回完整用户信息） */
+    @Override
+    public Map<String, Object> loginWithUserInfo(String username, String password) {
+        // 支持使用系统用户名或唯一昵称登录
+        User user = userMapper.selectByUsername(username);
+        if (user == null) {
+            user = userMapper.selectByNickname(username);
+        }
+        if (user == null) {
+            log.warn("用户登录失败: 用户不存在, username={}", username);
+            return null;
+        }
+        if (!passwordEncoder.matches(password, user.getPasswordHash())) {
+            log.warn("用户登录失败: 密码错误, username={}", username);
+            return null;
+        }
+        
+        String token = jwtUtil.generateToken(user.getUsername(), user.getId(), user.getRoles());
+        log.info("用户登录成功: username={}, nickname={}, role={}", user.getUsername(), user.getNickname(), user.getRoles());
+        
+        Map<String, Object> result = new HashMap<>();
+        result.put("token", token);
+        result.put("username", user.getUsername());
+        result.put("nickname", user.getNickname());
+        result.put("role", user.getRoles());
+        return result;
+    }
+
     /** 管理员登录（用户名+密码） */
     @Override
     public String adminLogin(String username, String password) {

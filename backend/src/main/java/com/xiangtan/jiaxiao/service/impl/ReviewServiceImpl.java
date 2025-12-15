@@ -52,4 +52,21 @@ public class ReviewServiceImpl implements ReviewService {
         String status = approved ? "APPROVED" : "REJECTED";
         reviewMapper.updateStatus(id, status, rejectReason);
     }
+
+    /** 获取所有评价（管理员） */
+    @Override
+    public List<Review> getAllReviews() {
+        QueryWrapper<Review> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("created_at");
+        return reviewMapper.selectList(queryWrapper);
+    }
+
+    /** 按状态获取评价（管理员） */
+    @Override
+    public List<Review> getReviewsByStatus(String status) {
+        QueryWrapper<Review> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status", status)
+                .orderByDesc("created_at");
+        return reviewMapper.selectList(queryWrapper);
+    }
 }

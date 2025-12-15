@@ -48,15 +48,13 @@ public class AuthController {
     @PostMapping("/login")
     @Operation(summary = "用户登录", description = "通过用户名（系统生成的数字ID）或唯一昵称和密码登录")
     public Result<?> login(@RequestBody LoginRequest request) {
-        String token = userService.login(request.getUsername(), request.getPassword());
+        Map<String, Object> result = userService.loginWithUserInfo(request.getUsername(), request.getPassword());
         
-        if (token == null) {
+        if (result == null) {
             return Result.error(401, "用户名或密码错误");
         }
 
-        Map<String, String> data = new HashMap<>();
-        data.put("token", token);
-        return Result.success(data, "登录成功");
+        return Result.success(result, "登录成功");
     }
 
     /**

@@ -14,6 +14,9 @@ public interface UserService {
     /** 用户登录（用户名+密码） */
     String login(String username, String password);
 
+    /** 用户登录（返回完整用户信息） */
+    Map<String, Object> loginWithUserInfo(String username, String password);
+
     /** 管理员登录（用户名+密码） */
     String adminLogin(String username, String password);
 

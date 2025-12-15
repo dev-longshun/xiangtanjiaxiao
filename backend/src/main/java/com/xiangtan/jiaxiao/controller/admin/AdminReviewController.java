@@ -23,12 +23,18 @@ public class AdminReviewController {
     private final ReviewService reviewService;
 
     /**
-     * 获取所有待审核评价
+     * 获取评价列表（支持按状态筛选）
+     * @param status 可选：PENDING/APPROVED/REJECTED，不传则返回所有
      */
     @GetMapping
-    @Operation(summary = "待审核评价列表", description = "获取所有待审核评价")
-    public Result<List<Review>> getPendingReviews() {
-        return Result.success(reviewService.getPendingReviews());
+    @Operation(summary = "评价列表", description = "获取评价列表，支持按状态筛选")
+    public Result<List<Review>> getReviews(@RequestParam(required = false) String status) {
+        if (status == null || status.isEmpty()) {
+            // 返回所有评价
+            return Result.success(reviewService.getAllReviews());
+        }
+        // 按状态筛选
+        return Result.success(reviewService.getReviewsByStatus(status));
     }
 
     /**

@@ -84,14 +84,18 @@
 
 .nav-link.active {
   color: white;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.3),
+    rgba(139, 92, 246, 0.3)
+  );
   border: 1px solid rgba(99, 102, 241, 0.5);
   font-weight: 600;
   outline: none;
 }
 
 .nav-link.active::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 50%;
@@ -100,6 +104,26 @@
   height: 2px;
   background: linear-gradient(90deg, transparent, #a78bfa, transparent);
   border-radius: 2px;
+}
+
+/* 管理员返回后台链接 */
+.admin-link {
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.3),
+    rgba(139, 92, 246, 0.3)
+  );
+  border: 1px solid rgba(99, 102, 241, 0.5);
+  color: #a78bfa !important;
+}
+
+.admin-link:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.5),
+    rgba(139, 92, 246, 0.5)
+  );
+  color: white !important;
 }
 
 /* 用户信息样式 */
@@ -186,4 +210,3 @@
     padding: calc(0.3rem - 1px) calc(0.35rem - 1px);
   }
 }
-

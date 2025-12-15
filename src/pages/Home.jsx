@@ -1,37 +1,82 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import SchoolCard from '../components/SchoolCard';
-import data from '../data/data.json';
-import './Home.css';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import SchoolCard from "../components/SchoolCard";
+import { schoolAPI } from "../utils/api";
+import "./Home.css";
+
+// 解析 JSON 字符串为数组
+const parseJsonArray = (value) => {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
 
 function Home() {
   const [schools, setSchools] = useState([]);
-  const [sortBy, setSortBy] = useState('rating'); // rating or reviewCount
+  const [totalReviews, setTotalReviews] = useState(0);
+  const [sortBy, setSortBy] = useState("rating"); // rating or reviewCount
   const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // 检测是否为移动端
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // 从后端加载驾校数据
   useEffect(() => {
-    // 加载并排序驾校数据
-    let sortedSchools = [...data.schools];
-    
-    if (sortBy === 'rating') {
-      sortedSchools.sort((a, b) => b.rating - a.rating);
-    } else if (sortBy === 'reviewCount') {
-      sortedSchools.sort((a, b) => b.reviewCount - a.reviewCount);
-    }
-    
-    setSchools(sortedSchools);
+    const loadSchools = async () => {
+      setLoading(true);
+      try {
+        const result = await schoolAPI.getAllSchools();
+        if (result.code === 200 && result.data) {
+          // 处理数据：解析 tags 和 courses
+          const processedSchools = result.data.map((school) => ({
+            ...school,
+            tags: parseJsonArray(school.tags),
+            courses: parseJsonArray(school.courses),
+            rating: school.rating || 0,
+            reviewCount: school.reviewCount || 0,
+            description: school.description || "暂无简介",
+          }));
+
+          // 计算总评价数
+          const total = processedSchools.reduce(
+            (sum, s) => sum + (s.reviewCount || 0),
+            0
+          );
+          setTotalReviews(total);
+
+          // 排序
+          let sortedSchools = [...processedSchools];
+          if (sortBy === "rating") {
+            sortedSchools.sort((a, b) => b.rating - a.rating);
+          } else if (sortBy === "reviewCount") {
+            sortedSchools.sort((a, b) => b.reviewCount - a.reviewCount);
+          }
+
+          setSchools(sortedSchools);
+        }
+      } catch (err) {
+        console.error("加载驾校数据失败:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSchools();
   }, [sortBy]);
 
   return (
@@ -60,11 +105,11 @@ function Home() {
             </div>
             <div className="hero-stats">
               <div className="stat-item">
-                <div className="stat-number">{data.schools.length}+</div>
+                <div className="stat-number">{schools.length}+</div>
                 <div className="stat-label">覆盖驾校</div>
               </div>
               <div className="stat-item">
-                <div className="stat-number">{data.reviews.length}+</div>
+                <div className="stat-number">{totalReviews}+</div>
                 <div className="stat-label">真实评价</div>
               </div>
               <div className="stat-item">
@@ -108,8 +153,8 @@ function Home() {
             <h2>热门驾校推荐</h2>
             <div className="sort-controls">
               <label>排序: </label>
-              <select 
-                value={sortBy} 
+              <select
+                value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="sort-select"
               >
@@ -119,13 +164,17 @@ function Home() {
             </div>
           </div>
 
-          <div className="schools-grid">
-            {schools.slice(0, isMobile ? 3 : 6).map(school => (
-              <SchoolCard key={school.id} school={school} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="loading-state">加载中...</div>
+          ) : (
+            <div className="schools-grid">
+              {schools.slice(0, isMobile ? 3 : 6).map((school) => (
+                <SchoolCard key={school.id} school={school} />
+              ))}
+            </div>
+          )}
 
-          {schools.length === 0 && (
+          {!loading && schools.length === 0 && (
             <div className="empty-state">
               <p>暂无驾校信息</p>
             </div>
@@ -164,4 +213,3 @@ function Home() {
 }
 
 export default Home;
-

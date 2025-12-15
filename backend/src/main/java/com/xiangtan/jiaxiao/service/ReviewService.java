@@ -15,6 +15,12 @@ public interface ReviewService {
     /** 获取所有待审核评价（管理员） */
     List<Review> getPendingReviews();
 
+    /** 获取所有评价（管理员） */
+    List<Review> getAllReviews();
+
+    /** 按状态获取评价（管理员） */
+    List<Review> getReviewsByStatus(String status);
+
     /** 提交新评价（公开接口，默认状态 PENDING） */
     void submitReview(Review review);
 

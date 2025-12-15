@@ -1,12 +1,12 @@
 // ===== 导入依赖 =====
-import { useState } from 'react';  // React Hook，用于管理组件状态
-import { useNavigate, Link } from 'react-router-dom';  // 路由相关（跳转、链接）
-import { authAPI } from '../utils/api';  // 导入 API 工具类（调用后端接口）
-import './Login.css';  // 页面样式
+import { useState } from "react"; // React Hook，用于管理组件状态
+import { useNavigate, Link } from "react-router-dom"; // 路由相关（跳转、链接）
+import { authAPI } from "../utils/api"; // 导入 API 工具类（调用后端接口）
+import "./Login.css"; // 页面样式
 
 /**
  * 登录页面组件
- * 
+ *
  * 这是一个 React 函数式组件，负责：
  * 1. 渲染登录表单（用户名、密码输入框）
  * 2. 处理用户输入
@@ -15,16 +15,16 @@ import './Login.css';  // 页面样式
  */
 function Login() {
   // ===== 初始化工具和状态 =====
-  const navigate = useNavigate();  // 路由跳转工具（类似后端 redirect）
-  
+  const navigate = useNavigate(); // 路由跳转工具（类似后端 redirect）
+
   // 表单数据状态（类似 Java 的成员变量）
   const [formData, setFormData] = useState({
-    username: '',  // 用户名（可以是数字ID或昵称）
-    password: '',  // 密码
+    username: "", // 用户名（可以是数字ID或昵称）
+    password: "", // 密码
   });
-  
-  const [loading, setLoading] = useState(false);  // 是否正在加载（防止重复提交）
-  const [error, setError] = useState('');  // 错误提示信息
+
+  const [loading, setLoading] = useState(false); // 是否正在加载（防止重复提交）
+  const [error, setError] = useState(""); // 错误提示信息
 
   // ===== 处理输入框变化 =====
   /**
@@ -32,12 +32,12 @@ function Login() {
    * 例如：用户在用户名输入框输入 "1"，则 formData.username 变为 "1"
    */
   const handleChange = (e) => {
-    const { name, value } = e.target;  // 获取输入框的 name 和 value
-    setFormData(prev => ({
-      ...prev,  // 保留其他字段
-      [name]: value  // 更新对应字段（username 或 password）
+    const { name, value } = e.target; // 获取输入框的 name 和 value
+    setFormData((prev) => ({
+      ...prev, // 保留其他字段
+      [name]: value, // 更新对应字段（username 或 password）
     }));
-    setError(''); // 清除之前的错误提示
+    setError(""); // 清除之前的错误提示
   };
 
   // ===== 核心：处理登录提交 =====
@@ -48,16 +48,16 @@ function Login() {
   const handleSubmit = async (e) => {
     // 阻止表单默认提交行为（避免页面刷新）
     e.preventDefault();
-    setError('');  // 清空错误提示
+    setError(""); // 清空错误提示
 
     // ===== 第1步：前端表单验证 =====
     // 在发送请求前先检查，减少无效请求
     if (!formData.username.trim()) {
-      setError('请输入用户名或昵称');
-      return;  // 验证失败，终止流程
+      setError("请输入用户名或昵称");
+      return; // 验证失败，终止流程
     }
     if (!formData.password) {
-      setError('请输入密码');
+      setError("请输入密码");
       return;
     }
 
@@ -68,7 +68,7 @@ function Login() {
     try {
       // ===== 第3步：调用后端登录接口 =====
       // 这里开始执行网络请求，流程如下：
-      // 
+      //
       // authAPI.login(formData.username, formData.password)
       //   ↓ 调用 src/utils/api.js 中的 login 函数
       //   ↓ login 函数内部调用 request('/api/auth/login', {...})
@@ -103,41 +103,54 @@ function Login() {
       //   ↓ response.json() 解析 JSON 字符串为 JavaScript 对象
       //   ↓ 返回给这里的 result 变量
       const result = await authAPI.login(formData.username, formData.password);
-      
+
       // ===== 第4步：处理后端响应 =====
       // result 格式：{ code: 200, message: "登录成功", data: { token: "...", username: "10001" } }
       if (result.code === 200) {
-        // ===== 第5步：登录成功，保存 Token =====
+        // ===== 第5步：登录成功，保存 Token 和用户信息 =====
         // localStorage.setItem() 类似后端的 Session.setAttribute()
         // Token 会被永久保存在浏览器本地，直到手动删除或退出登录
-        localStorage.setItem('token', result.data.token);  // 保存 JWT Token
-        localStorage.setItem('username', formData.username);  // 保存用户名（用于显示）
-        localStorage.setItem('nickname', formData.username);  // 保存昵称（临时使用username）
-        
+        localStorage.setItem("token", result.data.token); // 保存 JWT Token
+        localStorage.setItem(
+          "username",
+          result.data.username || formData.username
+        ); // 保存用户名
+        localStorage.setItem(
+          "nickname",
+          result.data.nickname || formData.username
+        ); // 保存昵称
+        localStorage.setItem("role", result.data.role || "ROLE_USER"); // 保存角色
+
         // 控制台输出（方便调试）
-        alert('登录成功！');
-        console.log('登录成功，Token:', result.data.token);
-        
-        // ===== 第6步：跳转到首页 =====
-        // navigate('/') 类似后端的 return "redirect:/"
-        // React Router 会切换到首页组件，URL 变为 http://localhost:5173/
-        navigate('/');
-        
+        console.log(
+          "登录成功，Token:",
+          result.data.token,
+          "角色:",
+          result.data.role
+        );
+
+        // ===== 第6步：根据角色跳转 =====
+        // 管理员跳转到管理后台，普通用户跳转到首页
+        if (result.data.role === "ROLE_ADMIN") {
+          alert("管理员登录成功！");
+          navigate("/admin");
+        } else {
+          alert("登录成功！");
+          navigate("/");
+        }
       } else {
         // ===== 登录失败：显示后端返回的错误信息 =====
         // 例如：result.message = "用户名不存在" 或 "密码错误"
-        setError(result.message || '登录失败，请检查用户名和密码');
+        setError(result.message || "登录失败，请检查用户名和密码");
       }
-      
     } catch (err) {
       // ===== 第7步：捕获网络错误 =====
       // 可能的错误：
       // 1. 后端服务未启动（fetch 会抛出 TypeError: Failed to fetch）
       // 2. 网络超时
       // 3. CORS 跨域问题
-      console.error('登录失败:', err);
-      setError('网络错误，请稍后重试');
-      
+      console.error("登录失败:", err);
+      setError("网络错误，请稍后重试");
     } finally {
       // ===== 第8步：结束加载状态 =====
       // 无论成功或失败，都要恢复按钮可点击状态
@@ -167,7 +180,9 @@ function Login() {
               placeholder="输入系统用户名（如 10001）或昵称"
               disabled={loading}
             />
-            <span className="form-hint">支持使用系统生成的数字ID或您的昵称登录</span>
+            <span className="form-hint">
+              支持使用系统生成的数字ID或您的昵称登录
+            </span>
           </div>
 
           <div className="form-group">
@@ -183,12 +198,8 @@ function Login() {
             />
           </div>
 
-          <button 
-            type="submit" 
-            className="submit-btn"
-            disabled={loading}
-          >
-            {loading ? '登录中...' : '登录'}
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? "登录中..." : "登录"}
           </button>
         </form>
 
