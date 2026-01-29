@@ -107,13 +107,13 @@
   width: 100%;
   height: 24px;
   line-height: 24px;
-  caret-color: #a78bfa;
+  caret-color: #ffd700 !important; /* 亮黄色光标，更明显 */
 }
 
 .search-input:focus {
   outline: 0;
   border: 0;
-  caret-color: #a78bfa;
+  caret-color: #ffd700 !important; /* 亮黄色光标，更明显 */
 }
 
 .search-input::placeholder {

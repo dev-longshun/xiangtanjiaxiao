@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaSchool, FaChartBar, FaPaperPlane, FaInfoCircle } from 'react-icons/fa';
+import { FaHome, FaSchool, FaPaperPlane, FaInfoCircle } from 'react-icons/fa';
 import './Header.css';
 
 function Header() {
@@ -21,9 +21,6 @@ function Header() {
           </Link>
           <Link to="/all-schools" className={`nav-link ${isActive('/all-schools') ? 'active' : ''}`}>
             <FaSchool /> 全部驾校
-          </Link>
-          <Link to="/data-comparison" className={`nav-link ${isActive('/data-comparison') ? 'active' : ''}`}>
-            <FaChartBar /> 数据统计
           </Link>
           <Link to="/submit" className={`nav-link ${isActive('/submit') ? 'active' : ''}`}>
             <FaPaperPlane /> 投稿

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { FaStar, FaMapMarkerAlt, FaPhone, FaArrowLeft } from 'react-icons/fa';
 import ReviewCard from '../components/ReviewCard';
 import data from '../data/data.json';
@@ -7,6 +7,7 @@ import './SchoolDetail.css';
 
 function SchoolDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [school, setSchool] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [sortBy, setSortBy] = useState('date'); // date or rating
@@ -50,13 +51,24 @@ function SchoolDetail() {
   return (
     <div className="school-detail">
       <div className="container">
-        <Link to="/" className="back-button">
+        <button 
+          onClick={() => navigate(-1)} 
+          className="back-button"
+          type="button"
+        >
           <FaArrowLeft /> 返回首页
-        </Link>
+        </button>
 
         <div className="school-header">
           <div className="school-main-info">
-            <h1>{school.name}</h1>
+            <div className="school-title-row">
+              <h1>{school.name}</h1>
+              <div className="courses-list">
+                {school.courses.map((course, index) => (
+                  <span key={index} className="course-badge">{course}</span>
+                ))}
+              </div>
+            </div>
             <div className="school-rating-large">
               <FaStar className="star-icon-large" />
               <span className="rating-score-large">{school.rating.toFixed(1)}</span>
@@ -73,30 +85,6 @@ function SchoolDetail() {
               <FaPhone className="contact-icon" />
               <span>{school.phone}</span>
             </p>
-          </div>
-
-          <div className="school-description-box">
-            <h3>驾校简介</h3>
-            <p>{school.description}</p>
-          </div>
-
-          <div className="school-meta">
-            <div className="meta-item">
-              <strong>培训课程:</strong>
-              <div className="courses-list">
-                {school.courses.map((course, index) => (
-                  <span key={index} className="course-badge">{course}</span>
-                ))}
-              </div>
-            </div>
-            <div className="meta-item">
-              <strong>驾校特色:</strong>
-              <div className="tags-list">
-                {school.tags.map((tag, index) => (
-                  <span key={index} className="feature-tag">{tag}</span>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 

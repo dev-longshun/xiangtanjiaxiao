@@ -22,6 +22,10 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  text-decoration: none;
 }
 
 .back-button:hover {
@@ -65,10 +69,18 @@
   margin-bottom: 2rem;
 }
 
+.school-title-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
 .school-main-info h1 {
   font-size: 2.5rem;
   color: white;
-  margin-bottom: 1rem;
+  margin: 0;
 }
 
 .school-rating-large {
@@ -120,48 +132,11 @@
   color: #a78bfa;
 }
 
-.school-description-box {
-  margin-bottom: 2rem;
-}
-
-.school-description-box h3 {
-  font-size: 1.25rem;
-  color: white;
-  margin-bottom: 0.75rem;
-}
-
-.school-description-box p {
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.8;
-  font-size: 1rem;
-}
-
-.school-meta {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-.meta-item {
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.meta-item strong {
-  display: block;
-  font-size: 1rem;
-  color: white;
-  margin-bottom: 1rem;
-}
-
-.courses-list,
-.tags-list {
+.courses-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+  align-items: center;
 }
 
 .course-badge {
@@ -172,16 +147,6 @@
   font-size: 0.9rem;
   font-weight: 600;
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-}
-
-.feature-tag {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  font-weight: 500;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .reviews-section {
@@ -292,6 +257,12 @@
     margin-top: 3rem;
   }
 
+  .school-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
   .school-main-info h1 {
     font-size: 1.75rem;
   }
@@ -302,10 +273,6 @@
 
   .star-icon-large {
     font-size: 1.5rem;
-  }
-
-  .school-meta {
-    grid-template-columns: 1fr;
   }
 
   .reviews-header {
